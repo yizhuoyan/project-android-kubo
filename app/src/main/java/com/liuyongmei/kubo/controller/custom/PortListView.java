@@ -47,9 +47,9 @@ public class PortListView extends LinearLayout implements DataReader.Callback, V
         //发送分析端口数量请求
         AppService.getInstance().sendPortCountCommand(this);
         //默认8个端口
-        PortCountData data=new PortCountData();
-        data.count=8;
-        onReceive(data);
+//        PortCountData data=new PortCountData();
+//        data.count=8;
+//        onReceive(data);
     }
 
     @Override

@@ -32,8 +32,9 @@ import lecho.lib.hellocharts.view.LineChartView;
  */
 
 public class PortSpectrumChartView extends LineChartView implements DataReader.Callback {
-    private static final String TAG=PortListView.class.getName();
-    private Map<String,LineChartData> dataMap;
+    private static final String TAG = PortListView.class.getName();
+    private Map<String, LineChartData> dataMap;
+
     public PortSpectrumChartView(Context context) {
         super(context);
     }
@@ -45,35 +46,38 @@ public class PortSpectrumChartView extends LineChartView implements DataReader.C
     public PortSpectrumChartView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+
     {
         init();
     }
-    private void init(){
+
+    private void init() {
         //接收谱图数据
-        AppService.getInstance().addReceiveDataListener(CommandBuilder.RECEIVE_CODE$SPECTRUM,this);
-        dataMap=new HashMap<>(16);
+        AppService.getInstance().addReceiveDataListener(CommandBuilder.RECEIVE_CODE$SPECTRUM, this);
+        dataMap = new HashMap<>(16);
         //设置相关显示特性
-        this.setInteractive(true);
+        this.setInteractive(false);
         this.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
         this.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         this.setVisibility(View.VISIBLE);
     }
+
     @Override
     public void onReceive(final Data data) {
-        if(data instanceof  SpectrumData) {
-            SpectrumData spectrumData=(SpectrumData) data;
-            LineChartData chartData=createLineData(spectrumData);
-            dataMap.put(String.valueOf(spectrumData.port),chartData);
-            Log.d(TAG,"得到通知数据"+data);
+        if (data instanceof SpectrumData) {
+            SpectrumData spectrumData = (SpectrumData) data;
+            LineChartData chartData = createLineData(spectrumData);
+            dataMap.put(String.valueOf(spectrumData.port), chartData);
+            Log.d(TAG, "得到通知数据" + data);
             switchView(spectrumData.port);
         }
     }
 
-    public void switchView(int port){
+    public void switchView(int port) {
 
-        final LineChartData data=this.dataMap.get(String.valueOf(port));
-        if(data==null){
-            ToastUtils.longShow(this.getContext(),"未接受到此端口["+port+"]数据，请稍候。。");
+        final LineChartData data = this.dataMap.get(String.valueOf(port));
+        if (data == null) {
+            ToastUtils.longShow(this.getContext(), "未接受到此端口[" + port + "]数据，请稍候。。");
         }
         this.post(new Runnable() {
             @Override
@@ -85,49 +89,53 @@ public class PortSpectrumChartView extends LineChartView implements DataReader.C
     }
 
 
-    private LineChartData createLineData(SpectrumData data){
-            //ads
-            float[] adsXAxis=data.adsPPo;
-            float[] adsYAxis=data.adsVomume;
+    private LineChartData createLineData(SpectrumData data) {
+        //ads
+        float[] adsXAxis = data.adsPPo;
+        float[] adsYAxis = data.adsVomume;
 
-            List<PointValue> adsPoints = new ArrayList<PointValue>(adsXAxis.length);
-            for (int i=0,len=data.adsMax;i<len;i++){
-                adsPoints.add(new PointValue(adsXAxis[i], adsXAxis[i]));
-            }
-            Line adsLine = new Line(adsPoints).setColor(Color.BLUE).setStrokeWidth(2);
-            //des
-            float[] desXAxis=data.adsPPo;
-            float[] desYAxis=data.adsVomume;
-            List<PointValue> desPoints = new ArrayList<PointValue>(adsXAxis.length);
-            for (int i=0,len=data.desMax;i<len;i++){
-                desPoints.add(new PointValue(desXAxis[i], desYAxis[i]));
-            }
-            Line desLine = new Line(desPoints).setColor(Color.GREEN).setStrokeWidth(1);
-            List<Line> lines = new ArrayList<Line>(2);
-            lines.add(adsLine);
-            lines.add(desLine);
+        List<PointValue> adsPoints = new ArrayList<PointValue>(adsXAxis.length);
+        for (int i = 0, len = data.adsMax; i < len; i++) {
+            adsPoints.add(new PointValue(adsXAxis[i], adsXAxis[i]));
+        }
+        Line adsLine = new Line(adsPoints).setColor(Color.BLUE);
+        adsLine.setStrokeWidth(1);
+        adsLine.setHasPoints(false);
+        //des
+        float[] desXAxis = data.adsPPo;
+        float[] desYAxis = data.adsVomume;
+        List<PointValue> desPoints = new ArrayList<PointValue>(adsXAxis.length);
+        for (int i = 0, len = data.desMax; i < len; i++) {
+            desPoints.add(new PointValue(desXAxis[i], desYAxis[i]));
+        }
+        Line desLine = new Line(desPoints).setColor(Color.GREEN);
+        desLine.setHasPoints(false);//不显示节点
+        desLine.setStrokeWidth(1);
+        List<Line> lines = new ArrayList<Line>(2);
+        lines.add(adsLine);
+        lines.add(desLine);
 
-            //构建图数据
-            LineChartData chartData = new LineChartData();
-            //放入折线数据
-            chartData.setLines(lines);
-            //设置x轴
-            Axis xAxis=new Axis();
-            xAxis.setName("Relative Pressure[P/PO]"+data.port);
-            List<AxisValue> xAxisValues=new ArrayList<>(10);
-            float xValue=0;
-            for(int i=0;i<=10;i++){
-                xValue=i*0.1f;
-                xAxisValues.add(new AxisValue(xValue).setLabel(xValue+""));
-            }
-            xAxis.setValues(xAxisValues);
-            chartData.setAxisXBottom(xAxis);
-            //设置y轴
-            Axis yAxis=new Axis();
-            yAxis.setName("Volumn[ml/g]");
-            yAxis.setAutoGenerated(true);
-            chartData.setAxisYLeft(yAxis);
+        //构建图数据
+        LineChartData chartData = new LineChartData();
+        //放入折线数据
+        chartData.setLines(lines);
+        //设置x轴
+        Axis xAxis = new Axis();
+        xAxis.setName("Relative Pressure[P/PO]" + data.port);
+        List<AxisValue> xAxisValues = new ArrayList<>(10);
+        float xValue = 0;
+        for (int i = 0; i <= 10; i++) {
+            xValue = i * 0.1f;
+            xAxisValues.add(new AxisValue(xValue).setLabel(xValue + ""));
+        }
+        xAxis.setValues(xAxisValues);
+        chartData.setAxisXBottom(xAxis);
+        //设置y轴
+        Axis yAxis = new Axis();
+        yAxis.setName("Volumn[ml/g]");
+        yAxis.setAutoGenerated(true);
+        chartData.setAxisYLeft(yAxis);
 
-            return chartData;
+        return chartData;
     }
 }

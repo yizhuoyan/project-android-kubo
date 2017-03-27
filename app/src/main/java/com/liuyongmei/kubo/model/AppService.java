@@ -19,53 +19,53 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 
-public class AppService  {
-	private static ExecutorService pool= Executors.newCachedThreadPool();
-	private static AppService instance=new AppService();
+public class AppService {
+    private static ExecutorService pool = Executors.newCachedThreadPool();
+    private static AppService instance = new AppService();
 
 
-	private Socket socket;
+    private Socket socket;
 
-    public DataReader dataReader=null;
-    public DataSender dataSender=null;
-    public KeepAliveStrategy keepAliveStrategy=null;
+    public DataReader dataReader = null;
+    public DataSender dataSender = null;
+    public KeepAliveStrategy keepAliveStrategy = null;
 
     public AppService() {
-        dataReader=new DataReader();
-        dataSender=new DataSender();
-        keepAliveStrategy=new KeepAliveStrategy();
+        dataReader = new DataReader();
+        dataSender = new DataSender();
+        keepAliveStrategy = new KeepAliveStrategy();
     }
 
-    public void stop(){
+    public void stop() {
         try {
             dataReader.stop();
             dataSender.stop();
             keepAliveStrategy.stop();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
-    public void sendMsg(byte[] command){
-		this.dataSender.sendCommand(command);
-	}
-	
-	public void addReceiveDataListener(short code,DataReader.Callback callback) {
-		dataReader.addCallback(code,callback);
-	}
-	
-	public static AppService getInstance() {
-		return instance;
-	}
-		
 
-	
-	public void connect(final String ipInput, final  String passwordInput, final Handler handler){
-		pool.submit(new Runnable() {
-			@Override
-			public void run() {
-                Message m=Message.obtain();
-                m.what=500;
-				try {
+    public void sendMsg(byte[] command) {
+        this.dataSender.sendCommand(command);
+    }
+
+    public void addReceiveDataListener(short code, DataReader.Callback callback) {
+        dataReader.addCallback(code, callback);
+    }
+
+    public static AppService getInstance() {
+        return instance;
+    }
+
+
+    public void connect(final String ipInput, final String passwordInput, final Handler handler) {
+        pool.submit(new Runnable() {
+            @Override
+            public void run() {
+                Message m = Message.obtain();
+                m.what = 500;
+                try {
 
                     String ip = AssertUtils.notBlank("请输入IP地址", ipInput);
                     String password = AssertUtils.notBlank("请输入密码", passwordInput);
@@ -78,33 +78,56 @@ public class AppService  {
 
                     dataReader.start(socket.getInputStream());
                     //开启保持连接策略
-                   // keepAliveStrategy.start(dataSender);
-                    m.what=200;
-                }catch (ThisAppException e){
-                    m.obj=e.getMessage();
-				}catch (IOException e){
+                    // keepAliveStrategy.start(dataSender);
+                    m.what = 200;
+                } catch (ThisAppException e) {
+                    m.obj = e.getMessage();
+                } catch (IOException e) {
                     e.printStackTrace();
                     //TODO:后期修改为字符资源id
-                    m.obj="无法连接到指定ip，请确认ip和密码";
-				}catch (Throwable e){
+                    m.obj = "无法连接到指定ip，请确认ip和密码";
+                } catch (Throwable e) {
                     e.printStackTrace();
-                    m.obj="系统异常，请联系管理员";
-                }finally {
+                    m.obj = "系统异常，请联系管理员";
+                } finally {
                     handler.sendMessage(m);
                 }
 
-			}
-		});
+            }
+        });
 
 
-	}
+    }
 
-	public void sendPortCountCommand(DataReader.Callback callback){
-        this.addReceiveDataListener(CommandBuilder.RECEIVE_CODE$PORT_COUNT,callback);
+    /**
+     * 请求端口数量
+     *
+     * @param callback
+     */
+    public void sendPortCountCommand(DataReader.Callback callback) {
+        this.addReceiveDataListener(CommandBuilder.RECEIVE_CODE$PORT_COUNT, callback);
         this.dataSender.sendCommand(CommandBuilder.portCount());
     }
 
+    /**
+     * 请求端口参数
+     *
+     * @param port
+     * @param callback
+     */
+    public void sendNetRunSetCommand(int port, DataReader.Callback callback) {
+        this.addReceiveDataListener(CommandBuilder.RECEIVE_CODE$PORT_PARAMETER, callback);
+        this.dataSender.sendCommand(CommandBuilder.netRunSetData(port));
+    }
 
-
+    /**
+     * 请求分析进度
+     *
+     * @param callback
+     */
+    public void sendProgressCommand(DataReader.Callback callback) {
+        this.addReceiveDataListener(CommandBuilder.RECEIVE_CODE$ANALYZE_PROGRESS, callback);
+        this.dataSender.sendCommand(CommandBuilder.progress());
+    }
 
 }
