@@ -1,12 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.cheng.main.MainActivity" >
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_switch_login"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
-
+        android:title="切换登录"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_termination"
+        android:orderInCategory="100"
+        android:title="终止分析"
+        app:showAsAction= "ifRoom" />
 </menu>
