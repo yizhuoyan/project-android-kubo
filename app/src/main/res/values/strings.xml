@@ -8,10 +8,13 @@
     <string name="login">连接</string>
     <string name="cancle">取消</string>
     <string name="base_info">基本信息</string>
-    <string name="y">样品:YLT-4</string>
-    <string name="t">烘干温度[c]:270</string>
-    <string name="m">质量[g]:0.091700</string>
-    <string name="c">质检员:</string>
+    <string name="anaType">分析类型:</string>
+    <string name="spName">样品名称:</string>
+    <string name="spWeight">样品重量:</string>
+    <string name="spDryTemp">样品烘干温度:</string>
+    <string name="spDryTime">样品烘干时长:</string>
+    <string name="spPerson">样品检测员:</string>
+    <string name="spSource">样品来源:</string>
 
     <string name="zhengkong">真空较准</string>
     <string name="finished">已完成</string>

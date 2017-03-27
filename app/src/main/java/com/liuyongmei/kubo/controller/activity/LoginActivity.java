@@ -25,19 +25,19 @@ import com.liuyongmei.kubo.model.AppService;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    private Handler loginHandler=new Handler(){
+    private Handler loginHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
 
-            switch (msg.what){
+            switch (msg.what) {
                 case 200:
-                    ToastUtils.longShow(LoginActivity.this,"登录成功");
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    ToastUtils.longShow(LoginActivity.this, "登录成功");
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     //获取谱图数据
                     break;
                 case 500:
-                    ToastUtils.longShow(LoginActivity.this,msg.obj);
+                    ToastUtils.longShow(LoginActivity.this, msg.obj);
             }
             showProgress(false);
         }
@@ -60,18 +60,13 @@ public class LoginActivity extends AppCompatActivity {
         signInBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                    attemptLogin();
+                attemptLogin();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
-
-
-
-
-
 
 
     private void attemptLogin() {
@@ -107,19 +102,18 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             showProgress(true);
-            AppService.getInstance().connect(ip,password,loginHandler);
+            AppService.getInstance().connect(ip, password, loginHandler);
         }
     }
 
     private boolean isIpValid(String ip) {
         //TODO: Replace this with your own logic
-        if(ip.length()>15){
+        if (ip.length() > 15 || ip.length() < 7) {
             return false;
         }
 
         return ip.contains(".");
     }
-
 
 
     /**
@@ -157,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
 
 
 }

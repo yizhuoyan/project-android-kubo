@@ -1,144 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liuyongmei.kubo.controller.custom.PortDetailView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/white"
-    android:orientation="horizontal"
+<com.liuyongmei.kubo.controller.custom.PortDetailView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/port_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/port_detail"
-    android:padding="10dp"
-    >
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
+        <include layout="@layout/port_base" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#999"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_a"
-                android:text="@string/base_info"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:id="@+id/y"
-                    android:text="@string/y"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:id="@+id/t"
-                    android:text="@string/t"
-                    />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:id="@+id/m"
-                    android:text="@string/m"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:id="@+id/c"
-                    android:text="@string/c"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/gray"
-            />
+            android:background="@color/gray" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
 
             <ProgressBar
+                android:id="@+id/progess_1"
+                style="@style/mProgress_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/progressbar_horizonal"
-                style="@style/mProgress_horizontal"
-                android:progress="100"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
-                android:id="@+id/progess_1"
-                />
+                android:progress="100"
+                android:progressDrawable="@drawable/progressbar_horizonal" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
                     android:id="@+id/progress_1_name"
-                    android:textColor="@color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/zhengkong"
-                    android:textSize="@dimen/text_size_c"
-                    android:gravity="center"
-                    />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_c" />
+
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
                     android:id="@+id/progress_1_arrow"
-                    android:textColor="@color/white"
-                    android:text="@string/arrow"
-                    android:textSize="@dimen/text_size_c"
-                    android:gravity="center"
-                    />
-                <TextView
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:id="@+id/progress_1_result"
-                    android:textColor="@color/white"
-                    android:text="@string/finished"
-                    android:textSize="@dimen/text_size_c"
                     android:gravity="center"
-                    />
+                    android:text="@string/arrow"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_c" />
+
+                <TextView
+                    android:id="@+id/progress_1_result"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/finished"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_c" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -146,145 +75,138 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            >
+            android:paddingRight="10dp">
 
             <ProgressBar
+                android:id="@+id/progess_2"
+                style="@style/mProgress_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/progressbar_horizonal"
-                style="@style/mProgress_horizontal"
-                android:progress="100"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
-                android:id="@+id/progess_2"
-                />
+                android:progress="100"
+                android:progressDrawable="@drawable/progressbar_horizonal" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
                     android:id="@+id/progress_2_name"
-                    android:textColor="@color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/tiji"
-                    android:textSize="@dimen/text_size_c"
-                    android:gravity="center"
-                    />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_c" />
+
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
                     android:id="@+id/progress_2_arrow"
-                    android:textColor="@color/white"
-                    android:text="@string/arrow"
-                    android:textSize="@dimen/text_size_c"
-                    android:gravity="center"
-                    />
-                <TextView
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:id="@+id/progress_2_result"
-                    android:textColor="@color/white"
-                    android:text="@string/finished"
-                    android:textSize="@dimen/text_size_c"
                     android:gravity="center"
-                    />
+                    android:text="@string/arrow"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_c" />
+
+                <TextView
+                    android:id="@+id/progress_2_result"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/finished"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_c" />
             </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
 
             <ProgressBar
+                android:id="@+id/progess_3"
+                style="@style/mProgress_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/progressbar_horizonal"
-                style="@style/mProgress_horizontal"
                 android:progress="70"
-                android:id="@+id/progess_3"
-                />
+                android:progressDrawable="@drawable/progressbar_horizonal" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
                     android:id="@+id/progress_3_name"
-                    android:textColor="@color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/tiji"
-                    android:textSize="@dimen/text_size_c"
-                    android:gravity="center"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:id="@+id/progress_3_arrow"
                     android:textColor="@color/white"
-                    android:text="@string/arrow"
-                    android:textSize="@dimen/text_size_c"
-                    android:gravity="center"
-                    />
+                    android:textSize="@dimen/text_size_c" />
+
                 <TextView
+                    android:id="@+id/progress_3_arrow"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:id="@+id/progress_3_result"
-                    android:textColor="@color/blue"
-                    android:text="@string/jiexi"
-                    android:textSize="@dimen/text_size_c"
                     android:gravity="center"
-                    />
+                    android:text="@string/arrow"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_c" />
+
+                <TextView
+                    android:id="@+id/progress_3_result"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/jiexi"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_c" />
             </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
+
             <ProgressBar
+                android:id="@+id/progess_4"
+                style="@style/mProgress_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/progressbar_horizonal"
-                style="@style/mProgress_horizontal"
                 android:progress="30"
-                android:id="@+id/progess_4"
-                />
+                android:progressDrawable="@drawable/progressbar_horizonal" />
+
             <TextView
+                android:id="@+id/progress_4_result"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:id="@+id/progress_4_result"
-                android:textColor="@color/blue"
-                android:text="@string/jieshu"
-                android:textSize="@dimen/text_size_c"
                 android:gravity="center"
-                />
+                android:text="@string/jieshu"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/text_size_c" />
         </RelativeLayout>
 
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stop"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_b"
-                android:layout_margin="15dp"
-                android:background="@drawable/btn_selector"
-                android:id="@+id/stop"
-                />
-
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/btn_selector"
+            android:text="@string/stop"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_b" />
 
 
     </LinearLayout>
