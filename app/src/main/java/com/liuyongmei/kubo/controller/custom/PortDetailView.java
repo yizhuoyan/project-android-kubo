@@ -95,6 +95,6 @@ public class PortDetailView extends ScrollView implements DataReader.Callback {
             }
         });
     }
-    
+
 
 }
