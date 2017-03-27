@@ -19,9 +19,6 @@ import android.widget.EditText;
 import com.liuyongmei.kubo.R;
 import com.liuyongmei.kubo.common.ToastUtils;
 import com.liuyongmei.kubo.model.AppService;
-import com.liuyongmei.kubo.model.DataReader;
-import com.liuyongmei.kubo.model.DataSender;
-import com.liuyongmei.kubo.model.datamodel.Data;
 
 /**
  * A login screen that offers login via email/password.
@@ -36,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             switch (msg.what){
                 case 200:
                     ToastUtils.longShow(LoginActivity.this,"登录成功");
-                    startActivity(new Intent(LoginActivity.this,Main2Activity.class));
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     //获取谱图数据
                     break;
                 case 500:

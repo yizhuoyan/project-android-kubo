@@ -1,15 +1,12 @@
 package com.liuyongmei.kubo.model.datamodel;
 
-import android.util.Log;
-
-import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
 /**
  * 谱图数据
  */
-public class NetIsoData extends Data{
+public class SpectrumData extends Data{
 
 	public  static final long serialVersionUID = 694069136401119665L;
 
@@ -24,8 +21,8 @@ public class NetIsoData extends Data{
 
 	
 	
-	public static NetIsoData from(DataReaderInputStream in)throws IOException{
-        NetIsoData data=new NetIsoData();
+	public static SpectrumData from(DataReaderInputStream in)throws IOException{
+        SpectrumData data=new SpectrumData();
         //端口号，高位在前
         data.port=in.readInt();
         in.skipBytes(4);
@@ -47,7 +44,7 @@ public class NetIsoData extends Data{
 	
 	@Override
 	public String toString() {
-		return "NetIsoData [port=" + port + ", adsMax=" + adsMax + ", adsPPo=" + Arrays.toString(adsPPo)
+		return "SpectrumData [port=" + port + ", adsMax=" + adsMax + ", adsPPo=" + Arrays.toString(adsPPo)
 				+ ", adsVomume=" + Arrays.toString(adsVomume) + ", desMax=" + desMax + ", desPPo="
 				+ Arrays.toString(desPPo) + ", desVomume=" + Arrays.toString(desVomume) + "]";
 	}	

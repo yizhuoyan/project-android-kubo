@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Kubo-App</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="address">仪器IP:</string>
-    <string name="password">密码:</string>
+    <string name="app_name">物理吸附仪手机APP</string>
+    <string name="action_settings">设置</string>
     <string name="connect">连接</string>
     <string name="disconnect">断开</string>
-    <string name="login">登录</string>
+    <string name="login">连接</string>
     <string name="cancle">取消</string>
     <string name="base_info">基本信息</string>
     <string name="y">样品:YLT-4</string>
@@ -25,14 +22,12 @@
     <string name="jieshu">结束分析</string>
     <string name="stop">停止分析</string>
     <string name="control">气路控制</string>
-    <string name="last_page">上一页</string>
-    <string name="next_page">下一页</string>
+    <string name="last_page">上一个</string>
+    <string name="next_page">下一个</string>
 
     <string name="screen">senM</string>
 
     <string name="base_ip">192.168.0.5</string>
-    <string name="title_activity_login">登录</string>
-
     <!-- Strings related to login -->
     <string name="prompt_ip">设备IP</string>
     <string name="prompt_password">密码</string>
@@ -41,8 +36,8 @@
     <string name="error_incorrect_ip">IP地址错误</string>
     <string name="error_incorrect_password">密码错误</string>
     <string name="error_field_required">必须填写</string>
-    <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_test">TESTActivity</string>
 </resources>

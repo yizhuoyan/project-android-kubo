@@ -8,6 +8,12 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
+    <include
+        layout="@layout/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/drawer_view"
         android:layout_width="wrap_content"
@@ -15,12 +21,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/main_drawer_header"
-        app:menu="@menu/main_drawer_menu" />
+        app:menu="@menu/main_drawer" />
 
-    <include
-        layout="@layout/main_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
 
 

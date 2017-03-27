@@ -10,6 +10,8 @@ import java.io.IOException;
 public class CheckConnectionData extends  Data {
     public static CheckConnectionData from(DataInput in)throws IOException{
         CheckConnectionData data=new CheckConnectionData();
+        //?还需要8个,筹够40?
+        in.skipBytes(8);
         return data;
     }
 }

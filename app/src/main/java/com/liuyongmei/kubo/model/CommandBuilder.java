@@ -48,6 +48,40 @@ public class CommandBuilder {
 	public static final short SEND_CODE$TERMINATION=0x3f3f;
 
 
+	public static String getCommandName(byte[] command){
+		//读取识别码
+		int a=command[30];
+		int b=command[31];
+		short code=(short)((a<<8)+b);
+		switch (code){
+			case SEND_CODE$ANALYZE_PROGRESS:
+				return "发送分析进程";
+			case CODE$CHECK_CONNECTION:
+				return "连接检测";
+			case RECEIVE_CODE$PORT_COUNT:
+				return "接收端口数量";
+			case RECEIVE_CODE$PORT_PARAMETER:
+				return "接收端口参数";
+			case RECEIVE_CODE$PRESSURE_TEMPERATURE:
+				return "接收压力和温度";
+			case RECEIVE_CODE$SOLENOIDVALVE_PFC:
+				return "接收电磁阀和PFC状态";
+			case RECEIVE_CODE$SPECTRUM:
+				return "接收谱图数据";
+			case SEND_CODE$LOGIN:
+				return "登录";
+			case SEND_CODE$PORT_COUNT:
+				return "发送端口数量";
+			case SEND_CODE$PORT_PARAMETER:
+				return "发送端口参数请求";
+			case SEND_CODE$TERMINATION:
+				return "终止";
+			case SEND_CODE$UNLOCK_GAS_PATH:
+				return "发送解锁气门";
+
+		}
+		return "未识别";
+	}
 	/**
 	 * 登陆
 	 * @param password
@@ -58,7 +92,7 @@ public class CommandBuilder {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
 			DataOutputStream os = new DataOutputStream(baos);
 			os.write(COMMAND_HEADER);
-			os.writeShort(SEND_CODE$LOGIN);/** 命令码*/
+			os.writeShort(SEND_CODE$LOGIN);/** 识别码*/
 			os.writeInt(password.length() + 1); /** 密码长度 +1*/
 			os.writeByte(0);
 			os.writeByte(0);
@@ -80,7 +114,7 @@ public class CommandBuilder {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
 			DataOutputStream os = new DataOutputStream(baos);
 			os.write(COMMAND_HEADER);
-			os.writeShort(CODE$CHECK_CONNECTION);/** 命令码*/
+			os.writeShort(CODE$CHECK_CONNECTION);/** 识别码*/
 			os.writeByte(0);
 			os.writeByte(0);
 			os.writeByte(0);
@@ -100,7 +134,7 @@ public class CommandBuilder {
 	 * 分析端口数量命令
 	 * @return
      */
-	public static byte[] portNumber(){
+	public static byte[] portCount(){
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
 			DataOutputStream os = new DataOutputStream(baos);
@@ -199,7 +233,7 @@ public class CommandBuilder {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
 			DataOutputStream os = new DataOutputStream(baos);
 			os.write(COMMAND_HEADER);
-			os.writeShort(SEND_CODE$TERMINATION); /**命令码*/
+			os.writeShort(SEND_CODE$TERMINATION); /**识别码*/
 			os.writeInt(0x02020000); /**类型码*/
 			os.writeByte(0);
 			os.writeByte(0);

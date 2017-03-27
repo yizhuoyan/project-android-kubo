@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.liuyongmei.kubo.common.ToastUtils;
+import com.liuyongmei.kubo.model.AppService;
+import com.liuyongmei.kubo.model.CommandBuilder;
 import com.liuyongmei.kubo.model.DataReader;
 import com.liuyongmei.kubo.model.datamodel.Data;
 import com.liuyongmei.kubo.model.datamodel.SpectrumData;
@@ -29,22 +31,27 @@ import lecho.lib.hellocharts.view.LineChartView;
  * Created by Administrator on 2017/3/27 0027.
  */
 
-public class SpectrumChartView extends LineChartView implements DataReader.Callback {
+public class PortSpectrumChartView extends LineChartView implements DataReader.Callback {
+    private static final String TAG=PortListView.class.getName();
     private Map<String,LineChartData> dataMap;
-    public SpectrumChartView(Context context) {
+    public PortSpectrumChartView(Context context) {
         super(context);
     }
 
-    public SpectrumChartView(Context context, AttributeSet attrs) {
+    public PortSpectrumChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SpectrumChartView(Context context, AttributeSet attrs, int defStyle) {
+    public PortSpectrumChartView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+    {
+        init();
+    }
     private void init(){
+        //接收谱图数据
+        AppService.getInstance().addReceiveDataListener(CommandBuilder.RECEIVE_CODE$SPECTRUM,this);
         dataMap=new HashMap<>(16);
-
         //设置相关显示特性
         this.setInteractive(true);
         this.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
@@ -57,15 +64,24 @@ public class SpectrumChartView extends LineChartView implements DataReader.Callb
             SpectrumData spectrumData=(SpectrumData) data;
             LineChartData chartData=createLineData(spectrumData);
             dataMap.put(String.valueOf(spectrumData.port),chartData);
+            Log.d(TAG,"得到通知数据"+data);
+            switchView(spectrumData.port);
         }
     }
 
     public void switchView(int port){
-        LineChartData data=this.dataMap.get(String.valueOf(port));
+
+        final LineChartData data=this.dataMap.get(String.valueOf(port));
         if(data==null){
-            ToastUtils.longShow(this.getContext(),"未接受到此端口数据"+port);
+            ToastUtils.longShow(this.getContext(),"未接受到此端口["+port+"]数据，请稍候。。");
         }
-        this.setLineChartData(data);
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                setLineChartData(data);
+            }
+        });
+
     }
 
 
@@ -97,7 +113,7 @@ public class SpectrumChartView extends LineChartView implements DataReader.Callb
             chartData.setLines(lines);
             //设置x轴
             Axis xAxis=new Axis();
-            xAxis.setName("Relative Pressure[P/PO]");
+            xAxis.setName("Relative Pressure[P/PO]"+data.port);
             List<AxisValue> xAxisValues=new ArrayList<>(10);
             float xValue=0;
             for(int i=0;i<=10;i++){

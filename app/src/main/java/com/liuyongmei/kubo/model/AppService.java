@@ -98,7 +98,13 @@ public class AppService  {
 
 
 	}
-	
+
+	public void sendPortCountCommand(DataReader.Callback callback){
+        this.addReceiveDataListener(CommandBuilder.RECEIVE_CODE$PORT_COUNT,callback);
+        this.dataSender.sendCommand(CommandBuilder.portCount());
+    }
+
+
 
 
 }

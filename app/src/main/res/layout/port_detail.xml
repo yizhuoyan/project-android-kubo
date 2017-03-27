@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<com.liuyongmei.kubo.controller.custom.PortDetailView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/white"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scroll"
+    android:id="@+id/port_detail"
     android:padding="10dp"
     >
     <LinearLayout
@@ -13,10 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <lecho.lib.hellocharts.view.LineChartView
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
 
         <View
             android:layout_width="match_parent"
@@ -213,8 +209,6 @@
                 android:progressDrawable="@drawable/progressbar_horizonal"
                 style="@style/mProgress_horizontal"
                 android:progress="70"
-                android:maxHeight="20dp"
-                android:minHeight="20dp"
                 android:id="@+id/progess_3"
                 />
             <LinearLayout
@@ -254,27 +248,24 @@
                     />
             </LinearLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             >
-
             <ProgressBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:progressDrawable="@drawable/progressbar_horizonal"
                 style="@style/mProgress_horizontal"
                 android:progress="30"
-                android:maxHeight="20dp"
-                android:minHeight="20dp"
                 android:id="@+id/progess_4"
                 />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:id="@+id/finish"
+                android:id="@+id/progress_4_result"
                 android:textColor="@color/blue"
                 android:text="@string/jieshu"
                 android:textSize="@dimen/text_size_c"
@@ -282,45 +273,19 @@
                 />
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            >
+
             <Button
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/stop"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_b"
+                android:layout_margin="15dp"
                 android:background="@drawable/btn_selector"
                 android:id="@+id/stop"
                 />
-            <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="0dp"
-                ></View>
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="30dp"
-                android:text="@string/control"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_b"
-                android:background="@drawable/btn_selector"
-                android:id="@+id/control"
-                />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@android:color/transparent"
-            />
+
+
+
     </LinearLayout>
-</ScrollView>
+</com.liuyongmei.kubo.controller.custom.PortDetailView>

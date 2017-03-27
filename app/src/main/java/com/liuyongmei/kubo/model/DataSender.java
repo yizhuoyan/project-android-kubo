@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 发送命令
@@ -23,7 +24,7 @@ public class DataSender implements Runnable{
 	private OutputStream out;
 	
 	public DataSender() {
-
+			queue=new LinkedBlockingQueue<>();
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class DataSender implements Runnable{
 			while(this.thread!=null){
 				Log.d(TAG,"获取待发送的命令");
 				byte[] command = queue.take();
-				Log.d(TAG,"发送命令"+ Arrays.toString(command));
+				Log.d(TAG,"发送命令:"+CommandBuilder.getCommandName(command)+"="+Arrays.toString(command));
 				out.write(command);
 				out.flush();
 			}
@@ -43,7 +44,6 @@ public class DataSender implements Runnable{
 			} catch (IOException e1) {}
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**
@@ -52,9 +52,7 @@ public class DataSender implements Runnable{
 	 */
 	public void sendCommand(byte[] command){
 		try {
-			Log.d(TAG,"放入命令"+ Arrays.toString(command));
 			this.queue.put(command);
-
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +62,6 @@ public class DataSender implements Runnable{
 		this.thread=null;
 	}
 	public void start(OutputStream out){
-		queue = new LinkedBlockingDeque<byte[]>();
 		this.out = out;
 		thread = new Thread(this);
 		this.thread.start(); //开启线程

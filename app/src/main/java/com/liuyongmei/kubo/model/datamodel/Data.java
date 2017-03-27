@@ -70,7 +70,7 @@ public abstract class Data implements Serializable {
         switch (code) {
             //接收谱图数据
             case RECEIVE_CODE$SPECTRUM:
-                data = NetIsoData.from(in);
+                data = SpectrumData.from(in);
                 break;
             //接收压力和温度值
             case RECEIVE_CODE$PRESSURE_TEMPERATURE:
