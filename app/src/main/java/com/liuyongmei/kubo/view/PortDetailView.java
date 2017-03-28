@@ -1,41 +1,36 @@
 package com.liuyongmei.kubo.controller.custom;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.liuyongmei.kubo.R;
 import com.liuyongmei.kubo.model.AppService;
-import com.liuyongmei.kubo.model.CommandBuilder;
-import com.liuyongmei.kubo.model.DataReader;
-import com.liuyongmei.kubo.model.datamodel.AnalyzeProgressData;
-import com.liuyongmei.kubo.model.datamodel.Data;
-import com.liuyongmei.kubo.model.datamodel.PortCountData;
-import com.liuyongmei.kubo.model.datamodel.SpectrumData;
+import com.liuyongmei.kubo.model.SyncMessageListener;
+import com.liuyongmei.kubo.model.datamodel.AnalyzeProgressKuboData;
+import com.liuyongmei.kubo.model.datamodel.KuboData;
+import com.liuyongmei.kubo.model.datamodel.SyncMessage;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lecho.lib.hellocharts.gesture.ContainerScrollType;
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
 /**
  * Created by Administrator on 2017/3/27 0027.
  */
 
-public class PortDetailView extends ScrollView implements DataReader.Callback {
+public class PortDetailView extends ScrollView implements SyncMessageListener {
     private static final String TAG = PortDetailView.class.getName();
+
+    //折线图
+    private LineChartView chartView;
+    //端口参数
+    private PortBaseView baseView;
+
+    /********************各种进度条************************/
     //第一个进度条
     private ProgressBar progress1;
     // 第一个进度条中的文字控件，用于修改文字内容，与字体颜色
@@ -52,8 +47,8 @@ public class PortDetailView extends ScrollView implements DataReader.Callback {
     private ProgressBar progress4;
     // 第四个进度条中的文字控件，用于修改文字内容，与字体颜色
     private TextView progress4Name;
-
-    private LineChartView chartView;
+    //停止按钮
+    private Button teminateBtn;
 
     public PortDetailView(Context context) {
         super(context);
@@ -70,11 +65,12 @@ public class PortDetailView extends ScrollView implements DataReader.Callback {
         init(this);
     }
 
-    //    private void init(){
-//        AppService.getInstance().addReceiveDataListener(CommandBuilder.RECEIVE_CODE$PORT_PARAMETER,this);
-//    }
     private void init(View v) {
+        //对分析进度数据感兴趣
+        AppService.getInstance().addReceiveDataListener(KuboData.PORT_ANALYZE_PROGRESS,this);
         chartView = (LineChartView) v.findViewById(R.id.chart);
+        baseView= (PortBaseView) v.findViewById(R.id.port_base);
+
         progress1 = (ProgressBar) v.findViewById(R.id.progess_1);
         progress1Name = (TextView) v.findViewById(R.id.progress_1_name);
         progress1Arrow = (TextView) v.findViewById(R.id.progress_1_arrow);
@@ -91,16 +87,18 @@ public class PortDetailView extends ScrollView implements DataReader.Callback {
         progress3Result = (TextView) v.findViewById(R.id.progress_3_result);
 
         progress4 = (ProgressBar) v.findViewById(R.id.progess_4);
+        teminateBtn= (Button) v.findViewById(R.id.teminate);
+
     }
 
     @Override
-    public void onReceive(final Data data) {
+    public void onReceive(final SyncMessage message) {
         this.post(new Runnable() {
             @Override
             public void run() {
-                Log.d("xxx", data.toString());
-                if (data instanceof AnalyzeProgressData) {
-                    AnalyzeProgressData analyzeProgressData = (AnalyzeProgressData) data;
+                Log.d("xxx", message.toString());
+                if (message instanceof AnalyzeProgressKuboData) {
+                    AnalyzeProgressKuboData analyzeProgressData = (AnalyzeProgressKuboData) message;
                     upateView(analyzeProgressData);
                 }
             }
@@ -111,11 +109,11 @@ public class PortDetailView extends ScrollView implements DataReader.Callback {
     /**
      * 更新进度值
      *
-     * @param analyzeProgressData
+     * @param data
      */
-    public void upateView(AnalyzeProgressData analyzeProgressData) {
-        byte step = analyzeProgressData.progressNumber;
-        float progress = analyzeProgressData.progress;
+    public void upateView(AnalyzeProgressKuboData data) {
+        byte step = data.progressNumber;
+        float progress = data.progress;
         int progressInt = (int) progress * 100;
         switch (step) {
             case 3:

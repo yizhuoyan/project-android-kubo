@@ -1,10 +1,9 @@
 package com.liuyongmei.kubo.model.datamodel;
 
-import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 //分析口参数
-public class NetRunSetData extends Data{
+public class PortParameterRunSetData extends Data{
 	public  static final long serialVersionUID = 2141085568024215041L;
     //分析端口号
     public int port;
@@ -51,9 +50,9 @@ public class NetRunSetData extends Data{
 
 	public  char[]	isoPntCHAR=new char[2];		//等温线字符 TCHAR [2]
 
-    public static NetRunSetData from(DataReaderInputStream in)throws IOException{
+    public static PortParameterRunSetData from(DataReaderInputStream in)throws IOException{
 
-        NetRunSetData data = new NetRunSetData();
+        PortParameterRunSetData data = new PortParameterRunSetData();
         //分析端口号
         data.port=in.readIntReverse();
         //跳过4个字节
@@ -131,7 +130,7 @@ public class NetRunSetData extends Data{
 
 	@Override
 	public String toString() {
-		return "NetRunSetData [anaType=" + anaType + ", spName="
+		return "PortParameterRunSetData [anaType=" + anaType + ", spName="
 				+ Arrays.toString(spName) + ", spWeight=" + spWeight
 				+ ", spDryTemp=" + spDryTemp + ", spDryTime="
 				+ Arrays.toString(spDryTime) + ", spPerson="

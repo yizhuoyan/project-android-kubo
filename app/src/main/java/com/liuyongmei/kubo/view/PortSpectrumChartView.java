@@ -3,18 +3,17 @@ package com.liuyongmei.kubo.controller.custom;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.liuyongmei.kubo.common.ToastUtils;
 import com.liuyongmei.kubo.model.AppService;
-import com.liuyongmei.kubo.model.CommandBuilder;
-import com.liuyongmei.kubo.model.DataReader;
-import com.liuyongmei.kubo.model.datamodel.Data;
-import com.liuyongmei.kubo.model.datamodel.SpectrumData;
+import com.liuyongmei.kubo.model.SyncMessageListener;
+import com.liuyongmei.kubo.model.datamodel.KuboData;
+import com.liuyongmei.kubo.model.datamodel.SpectrumKuboData;
+import com.liuyongmei.kubo.model.datamodel.SyncMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +30,9 @@ import lecho.lib.hellocharts.view.LineChartView;
  * Created by Administrator on 2017/3/27 0027.
  */
 
-public class PortSpectrumChartView extends LineChartView implements DataReader.Callback {
+public class PortSpectrumChartView extends LineChartView implements SyncMessageListener {
     private static final String TAG = PortListView.class.getName();
-    private Map<String, LineChartData> dataMap;
+    private Map<String, SpectrumKuboData> spectrumDataMap;
 
     public PortSpectrumChartView(Context context) {
         super(context);
@@ -52,9 +51,11 @@ public class PortSpectrumChartView extends LineChartView implements DataReader.C
     }
 
     private void init() {
-        //接收谱图数据
-        AppService.getInstance().addReceiveDataListener(CommandBuilder.RECEIVE_CODE$SPECTRUM, this);
-        dataMap = new HashMap<>(16);
+        //保证图谱数据的顺序
+        spectrumDataMap = new LinkedHashMap<>(16);
+        //对谱图数据感兴趣
+        AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM,this);
+
         //设置相关显示特性
         this.setInteractive(false);
         this.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
@@ -62,34 +63,25 @@ public class PortSpectrumChartView extends LineChartView implements DataReader.C
         this.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onReceive(final Data data) {
-        if (data instanceof SpectrumData) {
-            SpectrumData spectrumData = (SpectrumData) data;
-            LineChartData chartData = createLineData(spectrumData);
-            dataMap.put(String.valueOf(spectrumData.port), chartData);
-            Log.d(TAG, "得到通知数据" + data);
-            switchView(spectrumData.port);
-        }
-    }
+
 
     public void switchView(int port) {
-
-        final LineChartData data = this.dataMap.get(String.valueOf(port));
+        SpectrumKuboData data=this.spectrumDataMap.get(String.valueOf(port));
         if (data == null) {
             ToastUtils.longShow(this.getContext(), "未接受到此端口[" + port + "]数据，请稍候。。");
         }
+        final LineChartData lineData =createLineData(data);
         this.post(new Runnable() {
             @Override
             public void run() {
-                setLineChartData(data);
+                setLineChartData(lineData);
             }
         });
 
     }
 
 
-    private LineChartData createLineData(SpectrumData data) {
+    private LineChartData createLineData(SpectrumKuboData data) {
         //ads
         float[] adsXAxis = data.adsPPo;
         float[] adsYAxis = data.adsVomume;
@@ -137,5 +129,17 @@ public class PortSpectrumChartView extends LineChartView implements DataReader.C
         chartData.setAxisYLeft(yAxis);
 
         return chartData;
+    }
+
+    @Override
+    public void onReceive(SyncMessage message) {
+        if(message instanceof SpectrumKuboData) {
+            SpectrumKuboData spectrumData = (SpectrumKuboData) message;
+            spectrumDataMap.put(String.valueOf(spectrumData.port), spectrumData);
+            if(spectrumDataMap.size()==1){
+                //默认展示第一个
+                this.switchView(spectrumData.port);
+            }
+        }
     }
 }
