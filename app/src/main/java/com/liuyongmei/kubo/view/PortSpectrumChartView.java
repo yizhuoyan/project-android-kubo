@@ -1,4 +1,4 @@
-package com.liuyongmei.kubo.controller.custom;
+package com.liuyongmei.kubo.view;
 
 import android.content.Context;
 import android.graphics.Color;

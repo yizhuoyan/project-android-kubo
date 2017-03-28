@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liuyongmei.kubo.controller.custom.PortDetailView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.liuyongmei.kubo.view.PortDetailView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/port_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
+        <!-- 端口参数-->
         <include layout="@layout/port_base" />
 
+        <!-- 各种进度条-->
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -199,7 +200,7 @@
 
 
         <Button
-            android:id="@+id/stop"
+            android:id="@+id/teminate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -210,4 +211,4 @@
 
 
     </LinearLayout>
-</com.liuyongmei.kubo.controller.custom.PortDetailView>
+</com.liuyongmei.kubo.view.PortDetailView>

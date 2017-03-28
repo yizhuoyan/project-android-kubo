@@ -14,8 +14,8 @@ import static com.liuyongmei.kubo.model.CommandBuilder.COMMAND_HEADER;
  * Created by Administrator on 2017/3/25 0025.
  */
 
-public abstract class Data extends SyncMessage implements Serializable {
-    private  static final String TAG=Data.class.getName();
+public abstract class KuboData extends SyncMessage implements Serializable {
+    private  static final String TAG=KuboData.class.getName();
     /**接收仪器端口数量*/
     public static final short PORT_COUNT =0x7272;
     /**接收谱图数据*/
@@ -33,7 +33,7 @@ public abstract class Data extends SyncMessage implements Serializable {
     //命令头
     public final byte[] header;
 
-    public Data() {
+    public KuboData() {
         this.header = COMMAND_HEADER;
     }
     /**
@@ -59,8 +59,8 @@ public abstract class Data extends SyncMessage implements Serializable {
         }
         return true;
     }
-    public static Data read(DataReaderInputStream in)throws IOException {
-        Data data = null;
+    public static KuboData read(DataReaderInputStream in)throws IOException {
+        KuboData data = null;
         //读取命令头和识别码
         Log.d(TAG, "开始读取数据");
         if (readCommandHeader(in)) {
@@ -75,33 +75,33 @@ public abstract class Data extends SyncMessage implements Serializable {
         switch (code) {
             //接收谱图数据
             case PORTS_SPECTRUM:
-                data = SpectrumData.from(in);
+                data = SpectrumKuboData.from(in);
                 break;
             //接收压力和温度值
             case PRESSURE_TEMPERATURE:
                 //数据从40位开始，跳过4位
                 in.skipBytes(4);
-                data = NetPaData.from(in);
+                data = NetPaKuboData.from(in);
                 break;
             //端口数量
             case PORT_COUNT:
-                data = PortCountData.from(in);
+                data = PortCountKuboData.from(in);
                 break;
             //分析进度
             case PORT_ANALYZE_PROGRESS:
-                data = AnalyzeProgressData.from(in);
+                data = AnalyzeProgressKuboData.from(in);
                 break;
             //电磁阀状态
             case SOLENOIDVALVE_PFC:
-                data = SolenoidValvePFCData.from(in);
+                data = SolenoidValvePFCKuboData.from(in);
                 break;
             //分析口参数
             case PORT_PARAMETER:
-                data = PortParameterRunSetData.from(in);
+                data = PortParameterRunSetKuboData.from(in);
                 break;
             //测试连接
             case CHECK_CONNECTION:
-                data = CheckConnectionData.from(in);
+                data = CheckConnectionKuboData.from(in);
                 break;
             default:
                 Log.e(TAG,"未找到对应识别码"+code);

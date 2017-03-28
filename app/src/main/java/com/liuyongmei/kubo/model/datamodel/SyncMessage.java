@@ -6,21 +6,24 @@ package com.liuyongmei.kubo.model.datamodel;
  */
 
 public class SyncMessage {
-    final public String type;
-    final public short code;
-    final public String message;
+    public static final int LOGIN_SUCCEED=0Xffff;
+    public static final int LOGIN_FAILED=0Xfffe;
+    public static final int READ_EXCEPTION=0Xffd;
 
-    public SyncMessage(String type,short code, String message) {
-        this.type=type;
+
+    public int code;
+    public String message;
+
+    public SyncMessage(int code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public SyncMessage(String type,short code) {
-        this(type,code,null);
+    public SyncMessage(int code) {
+        this(code,null);
     }
-    public SyncMessage(String type) {
-        this(type,(short) 0,null);
+    public SyncMessage() {
+
     }
 
 

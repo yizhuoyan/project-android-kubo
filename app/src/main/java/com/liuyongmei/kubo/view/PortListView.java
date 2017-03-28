@@ -1,4 +1,4 @@
-package com.liuyongmei.kubo.controller.custom;
+package com.liuyongmei.kubo.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -62,7 +62,7 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
                     addView(portView);
                     //默认选择第一个
                     if(currentSelectedView==null){
-                        portView.callOnClick();
+                        portView.performClick();
                     }
                 }
             }
@@ -81,7 +81,7 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
         params.leftMargin=5;
         params.rightMargin=5;
 
-        portView.setTextColor(R.color.white);
+        portView.setTextColor(0xffffffff);
         portView.setTextSize(20);
 
         portView.setLayoutParams(params);

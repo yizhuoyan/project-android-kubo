@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_switch_login"
+        android:id="@+id/action_gas_control"
         android:orderInCategory="100"
         android:title="气路控制"
         app:showAsAction="ifRoom" />

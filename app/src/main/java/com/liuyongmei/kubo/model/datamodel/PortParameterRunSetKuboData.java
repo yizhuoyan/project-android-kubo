@@ -3,7 +3,7 @@ package com.liuyongmei.kubo.model.datamodel;
 import java.io.IOException;
 import java.util.Arrays;
 //分析口参数
-public class PortParameterRunSetData extends Data{
+public class PortParameterRunSetKuboData extends KuboData {
 	public  static final long serialVersionUID = 2141085568024215041L;
     //分析端口号
     public int port;
@@ -50,9 +50,9 @@ public class PortParameterRunSetData extends Data{
 
 	public  char[]	isoPntCHAR=new char[2];		//等温线字符 TCHAR [2]
 
-    public static PortParameterRunSetData from(DataReaderInputStream in)throws IOException{
+    public static PortParameterRunSetKuboData from(DataReaderInputStream in)throws IOException{
 
-        PortParameterRunSetData data = new PortParameterRunSetData();
+        PortParameterRunSetKuboData data = new PortParameterRunSetKuboData();
         //分析端口号
         data.port=in.readIntReverse();
         //跳过4个字节
@@ -130,7 +130,7 @@ public class PortParameterRunSetData extends Data{
 
 	@Override
 	public String toString() {
-		return "PortParameterRunSetData [anaType=" + anaType + ", spName="
+		return "PortParameterRunSetKuboData [anaType=" + anaType + ", spName="
 				+ Arrays.toString(spName) + ", spWeight=" + spWeight
 				+ ", spDryTemp=" + spDryTemp + ", spDryTime="
 				+ Arrays.toString(spDryTime) + ", spPerson="

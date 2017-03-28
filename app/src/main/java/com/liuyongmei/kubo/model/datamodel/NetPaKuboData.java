@@ -1,6 +1,5 @@
 package com.liuyongmei.kubo.model.datamodel;
 
-import java.io.DataInput;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -9,7 +8,7 @@ import java.util.Arrays;
  *
  * @author lym
  */
-public class NetPaData extends  Data {
+public class NetPaKuboData extends KuboData {
     public static final long serialVersionUID = -5798825474478819416L;
     //对应气路图中Sen1,Sen3,Sen5的显示内容
     public float[] pa_H = new float[4];
@@ -22,8 +21,8 @@ public class NetPaData extends  Data {
     //对应气路图中控温温度的显示内容
     public float tmp;
 
-    public static NetPaData from(DataReaderInputStream in) throws IOException {
-        NetPaData data = new NetPaData();
+    public static NetPaKuboData from(DataReaderInputStream in) throws IOException {
+        NetPaKuboData data = new NetPaKuboData();
         //将值赋值到data.setPa_H()
         in.readFloatsReverse(data.pa_H);
 

@@ -1,20 +1,18 @@
 package com.liuyongmei.kubo.model.datamodel;
 
-import java.io.DataInput;
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * Created by Administrator on 2017/3/25 0025.
  */
 
-public class PortCountData extends  Data{
+public class PortCountKuboData extends KuboData {
     //端口数量
     public int count;
 
 
-    public static PortCountData from(DataReaderInputStream in)throws IOException{
-        PortCountData data=new PortCountData();
+    public static PortCountKuboData from(DataReaderInputStream in)throws IOException{
+        PortCountKuboData data=new PortCountKuboData();
         data.count=in.readInt();
         return data;
 

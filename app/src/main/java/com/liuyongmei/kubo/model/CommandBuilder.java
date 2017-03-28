@@ -1,5 +1,7 @@
 package com.liuyongmei.kubo.model;
 
+import com.liuyongmei.kubo.model.datamodel.KuboData;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.nio.charset.Charset;
@@ -15,35 +17,16 @@ public class CommandBuilder {
      * 登陆仪器
      * */
 	public static final short SEND_CODE$LOGIN=0x1010;
-	/**接收谱图数据*/
-	public static final short RECEIVE_CODE$SPECTRUM=0x5050;
-
 	/**获取仪器的分析端口数量*/
 	public static final short SEND_CODE$PORT_COUNT=0x7171;
-	/**接收仪器端口数量*/
-	public static final short RECEIVE_CODE$PORT_COUNT=0x7272;
-
 	/**发送获取仪器分析进度请求*/
 	public static final short SEND_CODE$ANALYZE_PROGRESS =0x3c3c;
-	/**接收仪器当前分析进度*/
-	public static final short RECEIVE_CODE$ANALYZE_PROGRESS =0x3d3d;
-
 	/**发送解锁仪器气路请求*/
 	public static final short SEND_CODE$UNLOCK_GAS_PATH=0x3737;
-	/**接收仪器压力和温度值*/
-	public static final short RECEIVE_CODE$PRESSURE_TEMPERATURE=0x3939;
-	/**接收电磁阀和PFC状态*/
-	public static final short RECEIVE_CODE$SOLENOIDVALVE_PFC=0x3a3a;
-
-
 	/**连接检测*/
 	public static final short CODE$CHECK_CONNECTION=0x4e4e;
-
 	/**发送获取分析端口参数请求*/
 	public static final short SEND_CODE$PORT_PARAMETER=0x7373;
-	/**接收分析端口参数*/
-	public static final short RECEIVE_CODE$PORT_PARAMETER=0x7474;
-
 	/**终止分析命令*/
 	public static final short SEND_CODE$TERMINATION=0x3f3f;
 
@@ -58,15 +41,15 @@ public class CommandBuilder {
 				return "发送分析进程";
 			case CODE$CHECK_CONNECTION:
 				return "连接检测";
-			case RECEIVE_CODE$PORT_COUNT:
+			case KuboData.PORT_COUNT:
 				return "接收端口数量";
-			case RECEIVE_CODE$PORT_PARAMETER:
+			case KuboData.PORT_PARAMETER:
 				return "接收端口参数";
-			case RECEIVE_CODE$PRESSURE_TEMPERATURE:
+			case KuboData.PRESSURE_TEMPERATURE:
 				return "接收压力和温度";
-			case RECEIVE_CODE$SOLENOIDVALVE_PFC:
+			case KuboData.SOLENOIDVALVE_PFC:
 				return "接收电磁阀和PFC状态";
-			case RECEIVE_CODE$SPECTRUM:
+			case KuboData.PORTS_SPECTRUM:
 				return "接收谱图数据";
 			case SEND_CODE$LOGIN:
 				return "登录";
@@ -78,7 +61,35 @@ public class CommandBuilder {
 				return "终止";
 			case SEND_CODE$UNLOCK_GAS_PATH:
 				return "发送解锁气门";
-
+		}
+		return "未识别";
+	}
+	public static String getCommandName(int code){
+		switch (code){
+			case SEND_CODE$ANALYZE_PROGRESS:
+				return "发送分析进程";
+			case CODE$CHECK_CONNECTION:
+				return "连接检测";
+			case KuboData.PORT_COUNT:
+				return "接收端口数量";
+			case KuboData.PORT_PARAMETER:
+				return "接收端口参数";
+			case KuboData.PRESSURE_TEMPERATURE:
+				return "接收压力和温度";
+			case KuboData.SOLENOIDVALVE_PFC:
+				return "接收电磁阀和PFC状态";
+			case KuboData.PORTS_SPECTRUM:
+				return "接收谱图数据";
+			case SEND_CODE$LOGIN:
+				return "登录";
+			case SEND_CODE$PORT_COUNT:
+				return "发送端口数量";
+			case SEND_CODE$PORT_PARAMETER:
+				return "发送端口参数请求";
+			case SEND_CODE$TERMINATION:
+				return "终止";
+			case SEND_CODE$UNLOCK_GAS_PATH:
+				return "发送解锁气门";
 		}
 		return "未识别";
 	}
@@ -183,7 +194,7 @@ public class CommandBuilder {
 	 * @param port 仪器分析端口号
 	 * @return
 	 */
-	public static byte[] netRunSetData(int port) {
+	public static byte[] portParameterSetData(int port) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
 			DataOutputStream os = new DataOutputStream(baos);

@@ -1,5 +1,6 @@
 package com.liuyongmei.kubo.controller.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,13 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.liuyongmei.kubo.MyApplication;
 import com.liuyongmei.kubo.R;
-import com.liuyongmei.kubo.controller.custom.PortDetailView;
-import com.liuyongmei.kubo.controller.custom.PortListView;
-import com.liuyongmei.kubo.controller.custom.PortSpectrumChartView;
+import com.liuyongmei.kubo.model.AppService;
+import com.liuyongmei.kubo.view.PortDetailView;
+import com.liuyongmei.kubo.view.PortListView;
+import com.liuyongmei.kubo.view.PortSpectrumChartView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String SWITCH_LOGIN_TAG="switch-login";
     private PortListView portListView;
     private PortSpectrumChartView chartView;
     private PortDetailView portDetailView;
@@ -27,7 +31,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         this.initNavigationView();
         this.initContentView();
+        this.init();
     }
+
 
     private void initNavigationView(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,9 +74,14 @@ public class MainActivity extends AppCompatActivity
         portDetailView= (PortDetailView) findViewById(R.id.port_detail);
 
     }
-
+    private void init(){
+        //发送获取谱图数据请求
+        AppService.getInstance().sendSpectrumData();
+    }
     public void switchView(int port){
+        //切换图标
         chartView.switchView(port);
+        this.setTitle("端口"+port);
         //portDetailView.
     }
     @Override
@@ -102,13 +113,29 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-
         //关闭抽屉
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        switch (item.getItemId()){
+            case R.id.nav_switch_login:
+                //切换登录
+                Intent intent=new Intent(this,LoginActivity.class);
+                intent.putExtra(SWITCH_LOGIN_TAG,true);
+                this.startActivity(intent);
+                break;
+        }
         return true;
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(intent!=null){
+            //如果是关闭标记，则销毁
+            if(intent.getBooleanExtra(MyApplication.EXIT,false)){
+                this.finish();
+            }
+        }
+    }
 }

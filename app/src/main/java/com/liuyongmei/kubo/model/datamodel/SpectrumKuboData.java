@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * 谱图数据
  */
-public class SpectrumData extends Data{
+public class SpectrumKuboData extends KuboData {
 
 	public  static final long serialVersionUID = 694069136401119665L;
 
@@ -21,8 +21,8 @@ public class SpectrumData extends Data{
 
 	
 	
-	public static SpectrumData from(DataReaderInputStream in)throws IOException{
-        SpectrumData data=new SpectrumData();
+	public static SpectrumKuboData from(DataReaderInputStream in)throws IOException{
+        SpectrumKuboData data=new SpectrumKuboData();
         //端口号，高位在前
         data.port=in.readInt();
         in.skipBytes(4);
@@ -44,7 +44,7 @@ public class SpectrumData extends Data{
 	
 	@Override
 	public String toString() {
-		return "SpectrumData [port=" + port + ", adsMax=" + adsMax + ", adsPPo=" + Arrays.toString(adsPPo)
+		return "SpectrumKuboData [port=" + port + ", adsMax=" + adsMax + ", adsPPo=" + Arrays.toString(adsPPo)
 				+ ", adsVomume=" + Arrays.toString(adsVomume) + ", desMax=" + desMax + ", desPPo="
 				+ Arrays.toString(desPPo) + ", desVomume=" + Arrays.toString(desVomume) + "]";
 	}	

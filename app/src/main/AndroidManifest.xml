@@ -30,9 +30,11 @@
         </activity>
         <activity
             android:name=".controller.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
+            ></activity>
         <activity
-            android:name=".controller.activity.DetailActivity"
+            android:name=".controller.activity.GasControlActivity"
             android:screenOrientation="landscape" />
     </application>
 
