@@ -13,6 +13,7 @@ import com.liuyongmei.kubo.controller.activity.MainActivity;
 import com.liuyongmei.kubo.model.AppService;
 import com.liuyongmei.kubo.model.SyncMessageListener;
 import com.liuyongmei.kubo.model.datamodel.KuboData;
+import com.liuyongmei.kubo.model.datamodel.PortCountKuboData;
 import com.liuyongmei.kubo.model.datamodel.SpectrumKuboData;
 import com.liuyongmei.kubo.model.datamodel.SyncMessage;
 
@@ -27,50 +28,58 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
 
     public PortListView(Context context) {
         super(context);
-
-        initView();
     }
 
     public PortListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
     }
 
     public PortListView(Context context,  AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
     }
 
-
-    private void initView() {
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
         this.context = (MainActivity) this.getContext();
-        //也对谱图数据感兴趣
-        AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM, this);
-        //发送分析端口数量请求,没意义啊，直接从谱图数据中找出端口
-        //AppService.getInstance().sendPortCountCommand(this);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Log.d("xxx","onAttachedToWindow-portlist");
     }
 
     @Override
     public void onReceive(final SyncMessage m) {
-        Log.d(TAG,"PortlistView得到数据通知:"+m);
+        Log.d("xxx","portlist收到消息"+m);
         this.post(new Runnable() {
             @Override
             public void run() {
                 if (m instanceof SpectrumKuboData) {
                     SpectrumKuboData spectrumData = (SpectrumKuboData) m;
-                    View portView=createPortView(spectrumData.port);
-                    addView(portView);
+                    View portView = createPortView(spectrumData.port);
+
                     //默认选择第一个
-                    if(currentSelectedView==null){
+                    if (currentSelectedView == null) {
                         portView.performClick();
                     }
+                } else if (m instanceof PortCountKuboData) {
+                    PortCountKuboData countKuboData = (PortCountKuboData) m;
+                    Log.d("count", "run: "+countKuboData.count);
                 }
             }
         });
     }
 
     private View createPortView(int port) {
+        View old=this.findViewWithTag(port);
+        if(old!=null){//已存在，不重新创建
+            return old;
+        }
         Button portView = new Button(this.getContext());
+        //portView.setId(port);
+        portView.setTag(port);
         portView.setText(String.valueOf(port));
         portView.setBackgroundResource(R.drawable.btn_port_view);
         portView.setGravity(Gravity.CENTER);
@@ -81,12 +90,11 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
         params.leftMargin=5;
         params.rightMargin=5;
 
+        portView.setLayoutParams(params);
         portView.setTextColor(0xffffffff);
         portView.setTextSize(20);
-
-        portView.setLayoutParams(params);
-        portView.setTag(port);
         portView.setOnClickListener(this);
+        addView(portView);
         return portView;
     }
 
@@ -103,9 +111,6 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
             v.setEnabled(false);
             v.setSelected(true);
             int port = (Integer) v.getTag();
-            //发出请求端口参数命令
-            AppService.getInstance().sendPortParameterSetCommand(port);
-            //发出开启端口分析命令
             //通知mainActivity更新视图
             this.context.switchView(port);
         }finally {

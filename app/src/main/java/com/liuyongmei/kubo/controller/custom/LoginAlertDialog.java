@@ -2,13 +2,10 @@ package com.liuyongmei.kubo.controller.custom;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,11 +13,7 @@ import android.widget.EditText;
 
 import com.liuyongmei.kubo.MyApplication;
 import com.liuyongmei.kubo.R;
-import com.liuyongmei.kubo.common.AssertUtils;
-import com.liuyongmei.kubo.common.ThisAppException;
 import com.liuyongmei.kubo.common.ToastUtils;
-import com.liuyongmei.kubo.controller.activity.LoginActivity;
-import com.liuyongmei.kubo.controller.activity.MainActivity;
 import com.liuyongmei.kubo.model.AppService;
 
 
@@ -117,7 +110,7 @@ public class LoginAlertDialog extends AlertDialog implements OnClickListener,Dia
 			String ip = ipET.getText().toString();
 			String password =passwordET.getText().toString();
 			//进行处理
-			AppService.getInstance().connect(ip,password);
+			AppService.getInstance().loginInConnect(ip,password);
 			//开始一个线程，显示超时
 			showTimeout();
 	}

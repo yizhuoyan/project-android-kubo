@@ -16,6 +16,13 @@ public class ToastUtils {
 	 * @param message
 	 */
 	public static void longShow(Context context, Object message){
+		show(context,message,Toast.LENGTH_LONG);
+	}
+	public static void shortShow(Context context, Object message){
+		show(context,message,Toast.LENGTH_SHORT);
+	}
+
+	private static void show(Context context, Object message,int time){
 		if(context==null)return;
 		if(message==null)return;
 		String m=message.toString();
@@ -27,8 +34,8 @@ public class ToastUtils {
 			}
 		}
 		Log.d("xxx",m);
-			Toast.makeText(context, m, Toast.LENGTH_LONG).show();
-			lastShowTime=System.nanoTime();
-			oldMessage=m;
+		Toast.makeText(context, m, time).show();
+		lastShowTime=System.nanoTime();
+		oldMessage=m;
 	}
 }

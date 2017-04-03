@@ -110,7 +110,7 @@ public class LoginAlertDialog extends AlertDialog implements OnClickListener,Dia
 			String ip = ipET.getText().toString();
 			String password =passwordET.getText().toString();
 			//进行处理
-			AppService.getInstance().connect(ip,password);
+			AppService.getInstance().loginInConnect(ip,password);
 			//开始一个线程，显示超时
 			showTimeout();
 	}

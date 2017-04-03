@@ -24,6 +24,7 @@ import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.view.LineChartView;
 
 /**
@@ -32,7 +33,8 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class PortSpectrumChartView extends LineChartView implements SyncMessageListener {
     private static final String TAG = PortListView.class.getName();
-    private Map<String, SpectrumKuboData> spectrumDataMap;
+    // //保证图谱数据的顺序
+    private Map<String, LineChartData> chartDataMap= new LinkedHashMap<>(16,1);
 
     public PortSpectrumChartView(Context context) {
         super(context);
@@ -46,38 +48,38 @@ public class PortSpectrumChartView extends LineChartView implements SyncMessageL
         super(context, attrs, defStyle);
     }
 
-    {
-        init();
-    }
 
-    private void init() {
-        //保证图谱数据的顺序
-        spectrumDataMap = new LinkedHashMap<>(16);
-        //对谱图数据感兴趣
-        AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM,this);
-
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
         //设置相关显示特性
-        this.setInteractive(false);
+        this.setInteractive(true);
         this.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
-        this.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+        //this.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         this.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onReceive(SyncMessage message) {
+        if(message instanceof SpectrumKuboData) {
+            SpectrumKuboData spectrumData = (SpectrumKuboData) message;
+            LineChartData lineData =createLineData(spectrumData);
+            chartDataMap.put(String.valueOf(spectrumData.port), lineData);
+        }
+    }
 
 
     public void switchView(int port) {
-        SpectrumKuboData data=this.spectrumDataMap.get(String.valueOf(port));
+       final LineChartData data=this.chartDataMap.get(String.valueOf(port));
         if (data == null) {
             ToastUtils.longShow(this.getContext(), "未接受到此端口[" + port + "]数据，请稍候。。");
         }
-        final LineChartData lineData =createLineData(data);
         this.post(new Runnable() {
             @Override
             public void run() {
-                setLineChartData(lineData);
+                setLineChartData(data);
             }
         });
-
     }
 
 
@@ -85,24 +87,45 @@ public class PortSpectrumChartView extends LineChartView implements SyncMessageL
         //ads
         float[] adsXAxis = data.adsPPo;
         float[] adsYAxis = data.adsVomume;
-
+        //转换为坐标点
         List<PointValue> adsPoints = new ArrayList<PointValue>(adsXAxis.length);
         for (int i = 0, len = data.adsMax; i < len; i++) {
-            adsPoints.add(new PointValue(adsXAxis[i], adsXAxis[i]));
+            adsPoints.add(new PointValue(adsXAxis[i], adsYAxis[i]));
         }
-        Line adsLine = new Line(adsPoints).setColor(Color.BLUE);
+        Line adsLine = new Line(adsPoints);
+        adsLine.setHasLines(true);//是否用线显示。
         adsLine.setStrokeWidth(1);
-        adsLine.setHasPoints(false);
+        adsLine.setColor(Color.BLUE);
+        adsLine.setCubic(false);////曲线是否平滑
+        adsLine.setFilled(false);//是否填充曲线的面积
+
+
+        adsLine.setHasPoints(true);//是否用点显示
+        adsLine.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状
+        adsLine.setPointRadius(2);
+        adsLine.setPointColor(0xffff0000);
+
         //des
-        float[] desXAxis = data.adsPPo;
-        float[] desYAxis = data.adsVomume;
+        float[] desXAxis = data.desPPo;
+        float[] desYAxis = data.desVomume;
+        //转换为坐标点
         List<PointValue> desPoints = new ArrayList<PointValue>(adsXAxis.length);
         for (int i = 0, len = data.desMax; i < len; i++) {
             desPoints.add(new PointValue(desXAxis[i], desYAxis[i]));
         }
-        Line desLine = new Line(desPoints).setColor(Color.GREEN);
-        desLine.setHasPoints(false);//不显示节点
+        Line desLine = new Line(desPoints);
+        //线
+        desLine.setHasLines(true);
+        desLine.setColor(Color.GREEN);
         desLine.setStrokeWidth(1);
+        desLine.setHasLines(true);
+        //点
+        desLine.setHasPoints(true);
+        desLine.setShape(ValueShape.CIRCLE);
+        desLine.setPointColor(0xffff00ff);
+        desLine.setPointRadius(2);
+
+
         List<Line> lines = new ArrayList<Line>(2);
         lines.add(adsLine);
         lines.add(desLine);
@@ -113,33 +136,28 @@ public class PortSpectrumChartView extends LineChartView implements SyncMessageL
         chartData.setLines(lines);
         //设置x轴
         Axis xAxis = new Axis();
-        xAxis.setName("Relative Pressure[P/PO]" + data.port);
-        List<AxisValue> xAxisValues = new ArrayList<>(10);
-        float xValue = 0;
-        for (int i = 0; i <= 10; i++) {
-            xValue = i * 0.1f;
-            xAxisValues.add(new AxisValue(xValue).setLabel(xValue + ""));
-        }
-        xAxis.setValues(xAxisValues);
+        xAxis.setName("Relative Pressure[P/PO]");
+        xAxis.setAutoGenerated(true);
+        xAxis.setTextSize(10);
+        xAxis.setMaxLabelChars(3); //最多几个坐标文字(0-32)
+        xAxis.setHasLines(true); //x 轴分割线
+
         chartData.setAxisXBottom(xAxis);
+
         //设置y轴
         Axis yAxis = new Axis();
         yAxis.setName("Volumn[ml/g]");
         yAxis.setAutoGenerated(true);
+        yAxis.setHasLines(true); //y 轴分割线
+        yAxis.setMaxLabelChars(3); //最多几个坐标文字(0-32)
+        yAxis.setTextSize(10);
+        yAxis.setHasSeparationLine(true);//有分割线
+
         chartData.setAxisYLeft(yAxis);
+
 
         return chartData;
     }
 
-    @Override
-    public void onReceive(SyncMessage message) {
-        if(message instanceof SpectrumKuboData) {
-            SpectrumKuboData spectrumData = (SpectrumKuboData) message;
-            spectrumDataMap.put(String.valueOf(spectrumData.port), spectrumData);
-            if(spectrumDataMap.size()==1){
-                //默认展示第一个
-                this.switchView(spectrumData.port);
-            }
-        }
-    }
+
 }

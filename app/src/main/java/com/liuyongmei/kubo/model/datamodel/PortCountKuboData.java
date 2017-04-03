@@ -14,7 +14,15 @@ public class PortCountKuboData extends KuboData {
     public static PortCountKuboData from(DataReaderInputStream in)throws IOException{
         PortCountKuboData data=new PortCountKuboData();
         data.count=in.readInt();
+        //跳过4个
+        in.skipBytes(4);
         return data;
+    }
 
+    @Override
+    public String toString() {
+        return "PortCountKuboData{" +
+                "count=" + count +
+                '}';
     }
 }

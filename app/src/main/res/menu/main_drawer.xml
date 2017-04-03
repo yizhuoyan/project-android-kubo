@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
         <item
-            android:id="@+id/nav_port_analysis"
-            android:icon="@android:drawable/stat_notify_sync_noanim"
-            android:title="端口分析" />
-        <item
             android:id="@+id/nav_gas_control"
             android:icon="@drawable/ic_menu_manage"
             android:title="气路控制" />
         <item
-            android:id="@+id/nav_check_connection"
-            android:icon="@android:drawable/ic_menu_help"
-            android:title="连接检测" />
-        <item
             android:id="@+id/nav_switch_login"
             android:icon="@android:drawable/ic_menu_share"
             android:title="切换登录" />
+        <item
+            android:id="@+id/nav_disconnection"
+            android:icon="@android:drawable/btn_dialog"
+            android:title="断开连接退出" />
 </menu>

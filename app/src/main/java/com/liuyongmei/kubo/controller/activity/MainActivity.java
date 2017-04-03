@@ -2,20 +2,27 @@ package com.liuyongmei.kubo.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.liuyongmei.kubo.MyApplication;
 import com.liuyongmei.kubo.R;
+import com.liuyongmei.kubo.common.ToastUtils;
 import com.liuyongmei.kubo.model.AppService;
-import com.liuyongmei.kubo.view.PortDetailView;
+import com.liuyongmei.kubo.model.datamodel.KuboData;
+import com.liuyongmei.kubo.view.PortDetailBaseView;
+import com.liuyongmei.kubo.view.PortDetailProgressView;
 import com.liuyongmei.kubo.view.PortListView;
 import com.liuyongmei.kubo.view.PortSpectrumChartView;
 
@@ -23,26 +30,31 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String SWITCH_LOGIN_TAG="switch-login";
     private PortListView portListView;
-    private PortSpectrumChartView chartView;
-    private PortDetailView portDetailView;
+    private PortSpectrumChartView portChartView;
+    private PortDetailProgressView portDetailProgressView;
+    private PortDetailBaseView portDetailBaseView;
+    private TextView currentIpView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.initNavigationView();
         this.initContentView();
-        this.init();
     }
+
 
 
     private void initNavigationView(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         //use the toolbar
         setSupportActionBar(toolbar);
         //hide the title
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
         //get the drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         //add a listener on the drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this
@@ -66,31 +78,100 @@ public class MainActivity extends AppCompatActivity
         //add drawer item listener
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headView=navigationView.getHeaderView(0);
+        currentIpView= (TextView) headView.findViewById(R.id.current_ip_view);
     }
 
     private void initContentView(){
+        //设置当前ip
+        currentIpView.setText(AppService.getInstance().currentIp);
         portListView= (PortListView) findViewById(R.id.port_list);
-        chartView= (PortSpectrumChartView) findViewById(R.id.chart);
-        portDetailView= (PortDetailView) findViewById(R.id.port_detail);
+        portChartView = (PortSpectrumChartView) findViewById(R.id.chart);
+        portDetailProgressView =(PortDetailProgressView) findViewById(R.id.port_detail_progress);
+        portDetailBaseView =(PortDetailBaseView) findViewById(R.id.port_detail_base);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //发送获取谱图数据请求
+        AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM, this.portChartView);
+        AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM, this.portListView);
+
+        //对分析进度数据感兴趣
+        AppService.getInstance().addReceiveDataListener(KuboData.PORT_ANALYZE_PROGRESS,this.portDetailProgressView);
+        AppService.getInstance().addReceiveDataListener(KuboData.PORT_PARAMETER,this.portDetailBaseView);
+
 
     }
-    private void init(){
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        Log.d("xxx","onAttachedToWindow-main");
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            Log.d("xxx","onWindowFocusChanged");
+            AppService.getInstance().sendSpectrumData();
+            //发送分析进度请求一次,然后等待推送
+            AppService.getInstance().sendProgressCommand();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         //发送获取谱图数据请求
-        AppService.getInstance().sendSpectrumData();
+        AppService.getInstance().removeReceiveDataListener(KuboData.PORTS_SPECTRUM, this.portChartView);
+        AppService.getInstance().removeReceiveDataListener(KuboData.PORTS_SPECTRUM, this.portListView);
+        //对分析进度数据感兴趣
+        AppService.getInstance().removeReceiveDataListener(KuboData.PORT_ANALYZE_PROGRESS,this.portDetailProgressView);
+        AppService.getInstance().removeReceiveDataListener(KuboData.PORT_PARAMETER,this.portDetailBaseView);
+
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.d("xxx","onSaveInstanceState");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.getApplication().onTerminate();
+    }
+
     public void switchView(int port){
-        //切换图标
-        chartView.switchView(port);
+        //切换图表
+        portChartView.switchView(port);
+        //改变标题
         this.setTitle("端口"+port);
-        //portDetailView.
+        //切换详情
+        portDetailBaseView.switchView(port);
+        //切换进度
+        portDetailProgressView.switchView(port);
     }
+    private long lastBackPressedTime;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //两次退出
+            if(System.currentTimeMillis()-lastBackPressedTime<500){
+                super.onBackPressed();
+            }else {
+                ToastUtils.shortShow(this,"再按一次退出");
+                lastBackPressedTime=System.currentTimeMillis();
+            }
+
         }
     }
     @Override
@@ -101,13 +182,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id){
+            case R.id.action_gas_control:
+                showGasControlActivity();
+                break;
 
-        //noinspection SimplifiableIfStatement
-
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -123,8 +204,17 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra(SWITCH_LOGIN_TAG,true);
                 this.startActivity(intent);
                 break;
+            case R.id.nav_gas_control:
+                showGasControlActivity();
+                break;
+            case R.id.nav_disconnection://退出
+                this.finish();
+                break;
         }
         return true;
+    }
+    private void showGasControlActivity(){
+        startActivity(new Intent(this,GasControlActivity.class));
     }
 
 
@@ -132,8 +222,10 @@ public class MainActivity extends AppCompatActivity
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if(intent!=null){
-            //如果是关闭标记，则销毁
+            //如果是关闭应用标记，则销毁
             if(intent.getBooleanExtra(MyApplication.EXIT,false)){
+                //手动触发application的终止方法，统一出口
+                this.getApplication().onTerminate();
                 this.finish();
             }
         }

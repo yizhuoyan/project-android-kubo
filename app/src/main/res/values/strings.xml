@@ -2,33 +2,37 @@
 <resources>
 
     <string name="app_name">物理吸附仪手机APP</string>
+
     <string name="action_settings">设置</string>
+    <string name="control">气路控制</string>
+
     <string name="connect">连接</string>
     <string name="disconnect">断开</string>
+
     <string name="login">连接</string>
     <string name="cancle">取消</string>
-    <string name="base_info">基本信息</string>
+
+    <string name="base_info">样品基本信息</string>
     <string name="anaType">分析类型:</string>
-    <string name="spName">样品名称:</string>
-    <string name="spWeight">样品重量:</string>
-    <string name="spDryTemp">样品烘干温度:</string>
-    <string name="spDryTime">样品烘干时长:</string>
-    <string name="spPerson">样品检测员:</string>
-    <string name="spSource">样品来源:</string>
+    <string name="spName">名称:</string>
+    <string name="spWeight">重量:</string>
+    <string name="spDryTemp">烘干温度:</string>
+    <string name="spDryTime">烘干时长:</string>
+    <string name="spPerson">检测员:</string>
+    <string name="spSource">来源:</string>
 
-    <string name="zhengkong">真空较准</string>
-    <string name="finished">已完成</string>
-    <string name="tiji">测量时体积</string>
-    <string name="yangping">测定样品</string>
-    <string name="arrow">==></string>
-    <string name="jiexi">解析</string>
-    <string name="jieshu">结束分析</string>
-    <string name="stop">停止分析</string>
-    <string name="control">气路控制</string>
-    <string name="last_page">上一个</string>
-    <string name="next_page">下一个</string>
+    <string name="analyse_progress_step1">真空校准</string>
+    <string name="analyse_progress_step2">测量死体积</string>
+    <string name="analyse_progress_step3">测定样品-解析</string>
+    <string name="analyse_progress_step4">结束分析</string>
+    <string name="analyse_progress_arrow">==></string>
 
-    <string name="screen">senM</string>
+
+    <string name="ready">未开始</string>
+    <string name="teminate_confirm_ask">正在分析样品，您真的要终止分析吗？</string>
+    <string name="btn_teminate_analyse">停止分析</string>
+    <string name="btn_teminated_analyse">未开始分析</string>
+
 
     <string name="base_ip">192.168.0.5</string>
     <!-- Strings related to login -->
@@ -42,5 +46,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_test">TESTActivity</string>
+    <string name="default_error_message">系统发生未知异常，请尝试重新登录或升级程序!</string>
+
+
 </resources>

@@ -14,4 +14,9 @@ public class CheckConnectionKuboData extends KuboData {
         in.skipBytes(8);
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "CheckConnectionKuboData{}";
+    }
 }

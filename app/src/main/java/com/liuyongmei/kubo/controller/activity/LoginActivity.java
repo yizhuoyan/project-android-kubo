@@ -6,10 +6,9 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -35,6 +34,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     private View mLoginFormView;
     private Button signInBtn;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +48,30 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         findViewById(R.id.sign_cancel_button).setOnClickListener(this);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //关注登录相关消息
         AppService.getInstance().addReceiveDataListener(SyncMessage.LOGIN_SUCCEED,this);
         AppService.getInstance().addReceiveDataListener(SyncMessage.LOGIN_FAILED,this);
+        AppService.getInstance().addReceiveDataListener(SyncMessage.LOGINING,this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //删除监听登录相关消息
+        AppService.getInstance().removeReceiveDataListener(SyncMessage.LOGIN_SUCCEED,this);
+        AppService.getInstance().removeReceiveDataListener(SyncMessage.LOGIN_FAILED,this);
+        AppService.getInstance().removeReceiveDataListener(SyncMessage.LOGINING,this);
+    }
 
     private void attemptLogin() {
+
+
         // Reset errors.
         ipView.setError(null);
         mPasswordView.setError(null);
@@ -63,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
-        View focusView = null;
+        View focusView = signInBtn;
 
         if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -86,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             focusView.requestFocus();
         } else {
             showProgress(true);
-            AppService.getInstance().connect(ip, password);
+            AppService.getInstance().loginInConnect(ip, password);
         }
     }
 
@@ -134,6 +152,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+
     }
 
 
@@ -158,10 +177,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                         exitIntent.putExtra(MyApplication.EXIT,true);
                         startActivity(exitIntent);
                         this.finish();
+
                     }
                 }else {
                     //第一次登录，关掉应用
                     this.finish();
+                    //进入程序统一出口
+                    this.getApplication().onTerminate();
                 }
                 break;
 
@@ -174,17 +196,22 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             @Override
             public void run() {
                 switch (message.code) {
+                    case SyncMessage.LOGINING://登录进度
+                        //暂时忽略进度
+                       // ToastUtils.shortShow(LoginActivity.this, message.message);
+                        break;
                     case SyncMessage.LOGIN_SUCCEED:
-                        ToastUtils.longShow(LoginActivity.this, "登录成功");
+                        ToastUtils.shortShow(LoginActivity.this, "登录成功");
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         //防止返回，销毁当前activity
                         finish();
                         break;
                     case SyncMessage.LOGIN_FAILED:
                         ToastUtils.longShow(LoginActivity.this, message.message);
+                        showProgress(false);
+                        break;
                 }
 
-                showProgress(false);
             }
         });
 

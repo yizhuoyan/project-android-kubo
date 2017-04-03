@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <!--两个标线-->
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical_40"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="380dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_horizontal_40"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintGuide_percent="0.4"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="182dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_vertical_70"
+        app:layout_constraintGuide_percent="0.7"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="666dp" />
+
+    <!--SenM-layout-->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:background="#ff260584"
+        android:padding="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_vertical_40"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="SenM"
+            android:textColor="#ffffffff"
+            tools:layout_editor_absoluteX="34dp"
+            tools:layout_editor_absoluteY="3dp" />
+
+        <TextView
+            android:id="@+id/gas_senm"
+            android:layout_width="0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@color/gas_input_bg"
+            />
+    </LinearLayout>
+
+    <!-- 1-3阀门，先中间，再两边-->
+    <View
+        android:id="@+id/imageView4"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:background="@drawable/arrow"
+        app:layout_constraintBottom_toTopOf="@+id/gas_valve2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintRight_toLeftOf="@+id/imageView6"
+        android:layout_marginRight="0dp"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/imageView5" />
+    <TextView
+        android:id="@+id/gas_valve2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:textColor="#ffffffff"
+        android:text="2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_40"
+        app:layout_constraintRight_toRightOf="@+id/imageView4"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView4"
+         />
+
+    <View
+        android:id="@+id/imageView5"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/arrow"
+        app:layout_constraintBottom_toTopOf="@+id/gas_valve1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/arrow"
+        app:layout_constraintVertical_bias="0.0" />
+    <TextView
+        android:id="@+id/gas_valve1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="#ffffffff"
+        app:layout_constraintRight_toRightOf="@+id/imageView5"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView5"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_40" />
+
+    <View
+        android:id="@+id/imageView6"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="45dp"
+        android:background="@drawable/arrow"
+        app:layout_constraintBottom_toTopOf="@+id/gas_valve3"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_vertical_40"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0" />
+    <TextView
+        android:id="@+id/gas_valve3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="3"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView6"
+        app:layout_constraintRight_toRightOf="@+id/imageView6"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_40" />
+
+
+    <!--三个向上箭头-->
+    <View
+        android:id="@+id/view3"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="@dimen/gas_arrow_height_s"
+        android:background="@drawable/arraw_up"
+        app:srcCompat="@drawable/arraw_up"
+        app:layout_constraintRight_toRightOf="@+id/gas_valve1"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_valve1"
+        app:layout_constraintTop_toBottomOf="@+id/gas_valve1" />
+    <View
+        android:id="@+id/view4"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="@dimen/gas_arrow_height_s"
+        android:background="@drawable/arraw_up"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_valve2"
+        app:layout_constraintRight_toRightOf="@+id/gas_valve2"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_40"
+        android:layout_marginTop="0dp"
+        app:layout_constraintHorizontal_bias="0.50" />
+    <View
+        android:id="@+id/imageView7"
+        android:layout_height="@dimen/gas_arrow_height_s"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:background="@drawable/arraw_up"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_40"
+        app:layout_constraintRight_toRightOf="@+id/gas_valve3"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_valve3" />
+
+    <!--三个sen-->
+    <TextView
+        android:id="@+id/gas_sen1"
+        android:layout_width="@dimen/gas_sen_width"
+        android:layout_height="@dimen/gas_sen_height"
+        android:background="@color/gas_input_bg"
+        android:gravity="center"
+        android:textSize="@dimen/gas_sen_text_size"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/view3"
+        app:layout_constraintRight_toRightOf="@+id/view3"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+    <TextView
+        android:id="@+id/gas_sen3"
+        android:layout_width="@dimen/gas_sen_width"
+        android:layout_height="@dimen/gas_sen_height"
+        android:background="@color/gas_input_bg"
+        android:gravity="center"
+        android:textSize="@dimen/gas_sen_text_size"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/view4"
+        app:layout_constraintRight_toRightOf="@+id/view4"
+        app:layout_constraintTop_toBottomOf="@+id/view4" />
+    <TextView
+        android:id="@+id/gas_sen5"
+        android:layout_width="@dimen/gas_sen_width"
+        android:layout_height="@dimen/gas_sen_height"
+        android:background="@color/gas_input_bg"
+        android:gravity="center"
+        android:textSize="@dimen/gas_sen_text_size"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView7"
+        app:layout_constraintRight_toRightOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
+    <!--三根连接线-->
+    <View
+        android:id="@+id/imageView8"
+        android:layout_width="3dp"
+        android:layout_height="30dp"
+        android:background="@drawable/arrow_line"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen1"
+        app:layout_constraintRight_toRightOf="@+id/gas_sen1"
+        app:layout_constraintTop_toBottomOf="@+id/gas_sen1"
+        />
+    <View
+        android:id="@+id/imageView9"
+        android:layout_width="3dp"
+        android:layout_height="30dp"
+        android:background="@drawable/arrow_line"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen3"
+        app:layout_constraintRight_toRightOf="@+id/gas_sen3"
+        app:layout_constraintTop_toBottomOf="@+id/gas_sen3" />
+    <View
+        android:id="@+id/view2"
+        android:layout_width="3dp"
+        android:layout_height="30dp"
+        android:background="@drawable/arrow_line"
+        app:layout_constraintRight_toRightOf="@+id/gas_sen5"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen5"
+        app:layout_constraintTop_toBottomOf="@+id/gas_sen5" />
+
+    <!--三个sen-->
+    <TextView
+        android:id="@+id/gas_sen2"
+        android:layout_width="@dimen/gas_sen_width"
+        android:layout_height="@dimen/gas_sen_height"
+        android:background="@color/gas_input_bg"
+        android:gravity="center"
+        android:textSize="@dimen/gas_sen_text_size"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView8"
+        app:layout_constraintRight_toRightOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+    <TextView
+        android:id="@+id/gas_sen4"
+        android:layout_width="@dimen/gas_sen_width"
+        android:layout_height="@dimen/gas_sen_height"
+        android:background="@color/gas_input_bg"
+        android:gravity="center"
+        android:textSize="@dimen/gas_sen_text_size"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView9"
+        app:layout_constraintRight_toRightOf="@+id/imageView9"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+    <TextView
+        android:id="@+id/gas_sen6"
+        android:layout_width="@dimen/gas_sen_width"
+        android:layout_height="@dimen/gas_sen_height"
+        android:background="@color/gas_input_bg"
+        android:gravity="center"
+        android:textSize="@dimen/gas_sen_text_size"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/view2"
+        app:layout_constraintRight_toRightOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <!--三个向下箭头-->
+    <View
+        android:id="@+id/imageView10"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:background="@drawable/arraw_down"
+        app:layout_constraintBottom_toTopOf="@+id/gas_port1"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen2"
+        app:layout_constraintRight_toRightOf="@+id/gas_sen2"
+        app:layout_constraintTop_toBottomOf="@+id/gas_sen2" />
+    <View
+        android:id="@+id/imageView12"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:background="@drawable/arraw_down"
+        app:layout_constraintBottom_toTopOf="@+id/gas_port2"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen4"
+        app:layout_constraintRight_toRightOf="@+id/gas_sen4"
+        app:layout_constraintTop_toBottomOf="@+id/gas_sen4" />
+    <View
+        android:id="@+id/imageView11"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:background="@drawable/arraw_down"
+        app:layout_constraintBottom_toTopOf="@+id/gas_port3"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen6"
+        app:layout_constraintRight_toRightOf="@+id/gas_sen6"
+        app:layout_constraintTop_toBottomOf="@+id/gas_sen6" />
+
+    <!--三个端口-->
+
+    <View
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:background="@drawable/port1"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView10"
+        app:layout_constraintRight_toRightOf="@+id/imageView10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp"
+        android:id="@+id/gas_port1" />
+    <View
+        android:id="@+id/gas_port2"
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/port2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView12"
+        app:layout_constraintRight_toRightOf="@+id/imageView12" />
+    <View
+        android:id="@+id/gas_port3"
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:background="@drawable/port3"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView11"
+        app:layout_constraintRight_toRightOf="@+id/imageView11"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp" />
+
+
+
+    <!--the right part-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <TextView
+        android:id="@+id/gas_valve18"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="18"
+        android:textColor="#ffffffff"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintLeft_toRightOf="@+id/linearLayout4" />
+
+
+
+    <TextView
+        android:id="@+id/gas_valve15"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="15"
+        android:textColor="#ffffffff"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/view10"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/view10"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+    <TextView
+        android:id="@+id/gas_valve20"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="20"
+        android:textColor="#ffffffff"
+        app:layout_constraintRight_toRightOf="@+id/view11"
+        app:layout_constraintLeft_toLeftOf="@+id/view11"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/view9" />
+
+    <TextView
+        android:id="@+id/gas_valve17"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="17"
+        android:textColor="#ffffffff"
+        app:layout_constraintTop_toTopOf="@+id/view16"
+        app:layout_constraintBottom_toBottomOf="@+id/view16"
+        app:layout_constraintLeft_toRightOf="@+id/imageView14"
+        android:layout_marginLeft="0dp" />
+
+    <TextView
+        android:id="@+id/gas_valve16"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="16"
+        android:textColor="#ffffffff"
+        app:layout_constraintRight_toRightOf="@+id/imageView15"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView15"
+        app:layout_constraintBottom_toTopOf="@+id/imageView15" />
+
+    <TextView
+        android:id="@+id/gas_valve19"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/gas_valve_close"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="19"
+        android:textColor="#ffffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/view12"
+        app:layout_constraintRight_toRightOf="@+id/view12"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/include"
+        app:layout_constraintHorizontal_bias="0.473"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/gas_valve17" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="15dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/arraw_down"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_valve15"
+        app:layout_constraintRight_toRightOf="@+id/gas_valve15"
+        app:layout_constraintTop_toTopOf="@+id/imageView14" />
+
+    <View
+        android:id="@+id/view9"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="15dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/arraw_down"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_valve20"
+        app:layout_constraintRight_toRightOf="@+id/gas_valve20"
+        app:layout_constraintTop_toTopOf="@+id/imageView14" />
+
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arrow"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintLeft_toLeftOf="@+id/linearLayout4"
+        app:layout_constraintRight_toRightOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/gas_valve15" />
+
+    <View
+        android:id="@+id/view12"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arrow"
+        app:layout_constraintBottom_toTopOf="@+id/gas_valve19"
+        app:layout_constraintLeft_toLeftOf="@+id/linearLayout4"
+        app:layout_constraintRight_toRightOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/view11"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arrow"
+        app:layout_constraintBottom_toTopOf="@+id/gas_v"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_v"
+        app:layout_constraintRight_toRightOf="@+id/gas_v"
+        app:layout_constraintTop_toBottomOf="@+id/gas_valve20"
+        />
+
+
+
+
+    <View
+        android:id="@+id/imageView13"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/gas_arrow_width"
+        android:background="@drawable/arraw_left"
+        app:layout_constraintBottom_toBottomOf="@+id/gas_valve17"
+        app:layout_constraintLeft_toRightOf="@+id/gas_valve17"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gas_valve17" />
+
+    <View
+        android:id="@+id/view16"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="-5dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arraw_left"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/gas_valve17"
+        app:layout_constraintTop_toTopOf="@+id/imageView16"
+        app:layout_constraintLeft_toLeftOf="@+id/view12" />
+
+    <View
+        android:id="@+id/view15"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/gas_arrow_width"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arraw_left"
+        app:layout_constraintBottom_toBottomOf="@+id/gas_valve18"
+        app:layout_constraintLeft_toRightOf="@+id/gas_valve18"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gas_valve18" />
+
+    <View
+        android:id="@+id/imageView14"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/gas_arrow_width"
+        android:background="@drawable/arraw_left"
+        app:layout_constraintBottom_toBottomOf="@+id/gas_valve18"
+        app:layout_constraintLeft_toRightOf="@+id/linearLayout"
+        app:layout_constraintRight_toLeftOf="@+id/gas_valve18"
+        app:layout_constraintTop_toTopOf="@+id/gas_valve18"
+        />
+
+    <ImageView
+        android:id="@+id/gas_v"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/gas_v"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_40"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_vertical_70"
+        android:layout_marginRight="0dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_40"
+        />
+    <!--PFC-->
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:orientation="vertical"
+        android:padding="2dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_70"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_40">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="PFC" />
+        <TextView
+            android:id="@+id/gas_pfc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="109.43" />
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/imageView15"
+        android:layout_width="10dp"
+        android:layout_height="30dp"
+        android:background="@drawable/arraw_up"
+        app:layout_constraintRight_toRightOf="@+id/gas_senPo"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_senPo"
+        app:layout_constraintBottom_toTopOf="@+id/gas_senPo" />
+
+    <TextView
+        android:id="@+id/gas_senPo"
+        android:layout_width="@dimen/gas_sen_width"
+        android:layout_height="@dimen/gas_sen_height"
+        android:background="@color/gas_input_bg"
+        android:gravity="center"
+        android:textSize="@dimen/gas_sen_text_size"
+        android:textColor="#ffffffff"
+        app:layout_constraintBottom_toTopOf="@+id/imageView11"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_40" />
+
+    <View
+        android:id="@+id/view17"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:background="@drawable/arraw_down"
+        app:layout_constraintBottom_toTopOf="@+id/gas_portpo"
+        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_senPo"
+        app:layout_constraintRight_toRightOf="@+id/gas_senPo"
+        app:layout_constraintTop_toBottomOf="@+id/gas_senPo" />
+
+    <View
+        android:id="@+id/imageView16"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/gas_arrow_width"
+        android:background="@drawable/arrow_left_right"
+        app:layout_constraintBottom_toTopOf="@+id/imageView15"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/gas_valve16"
+        app:layout_constraintTop_toTopOf="@+id/gas_valve16"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/view12" />
+
+    <View
+        android:id="@+id/gas_portpo"
+        android:layout_width="6dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/port_po"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/view17"
+        app:layout_constraintRight_toRightOf="@+id/view17"
+        app:layout_constraintHorizontal_bias="0.4" />
+
+    <View
+        android:id="@+id/imageView18"
+        android:layout_width="@dimen/gas_arrow_width"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arraw_up"
+        app:layout_constraintBottom_toTopOf="@+id/imageView20"
+        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_v"
+        app:layout_constraintRight_toRightOf="@+id/gas_v"
+        app:layout_constraintTop_toBottomOf="@+id/gas_v" />
+
+    <View
+        android:id="@+id/imageView19"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/gas_arrow_width"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arraw_right"
+        app:layout_constraintBottom_toBottomOf="@+id/gas_valve19"
+        app:layout_constraintLeft_toRightOf="@+id/imageView20"
+        app:layout_constraintRight_toLeftOf="@+id/gas_valve19"
+        app:layout_constraintTop_toBottomOf="@+id/view12"
+        app:layout_constraintVertical_bias="0.45" />
+
+    <View
+        android:id="@+id/imageView20"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/arrow_line_trun"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView19"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView18"
+        app:layout_constraintRight_toRightOf="@+id/imageView18"
+        app:layout_constraintTop_toTopOf="@+id/imageView19" />
+
+
+
+    <!--操控板-->
+    <include
+        android:id="@+id/include"
+        layout="@layout/gas_control_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sen1"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen1"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/gas_sen1" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:text="Sen5"
+        app:layout_constraintBottom_toTopOf="@+id/gas_sen5"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen5" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:text="Sen3"
+        app:layout_constraintBottom_toTopOf="@+id/gas_sen3"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen3" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:text="Sen2"
+        app:layout_constraintBottom_toTopOf="@+id/gas_sen2"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen2" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:text="Sen4"
+        app:layout_constraintBottom_toTopOf="@+id/gas_sen4"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen4" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:text="Sen6"
+        app:layout_constraintBottom_toTopOf="@+id/gas_sen6"
+        app:layout_constraintLeft_toLeftOf="@+id/gas_sen6" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:text="SenPo"
+        app:layout_constraintBottom_toTopOf="@+id/gas_senPo"
+        app:layout_constraintRight_toLeftOf="@+id/imageView15"
+        android:layout_marginRight="0dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="0dp"
+        android:text="Po"
+        app:layout_constraintBottom_toBottomOf="@+id/gas_portpo"
+        app:layout_constraintRight_toLeftOf="@+id/gas_portpo" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="He"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/view15"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/view15" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:gravity="top|center_horizontal"
+        android:text="N"
+        app:layout_constraintBottom_toTopOf="@+id/imageView13"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView13" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:gravity="top|left"
+        android:textSize="8sp"
+        app:layout_constraintTop_toTopOf="@+id/textView11"
+        android:layout_marginTop="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/textView11"
+        android:layout_marginLeft="0dp" />
+
+</android.support.constraint.ConstraintLayout>

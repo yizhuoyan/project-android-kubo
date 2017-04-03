@@ -5,5 +5,6 @@
         android:id="@+id/action_gas_control"
         android:orderInCategory="100"
         android:title="气路控制"
+        android:icon="@drawable/gas_v"
         app:showAsAction="ifRoom" />
 </menu>

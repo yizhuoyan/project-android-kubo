@@ -9,9 +9,13 @@ import java.nio.charset.Charset;
 public class CommandBuilder {
     //命名头
 	public static final byte[] COMMAND_HEADER=new byte[30];
+	//有效命令头字符个数
+	public static int VALID_COMMAND_HEADER_BYTES;
     static {
+		//初始化命令头相关
         byte[]  bs="Kubo X1000".getBytes(Charset.forName("ISO-8859-1"));
-        System.arraycopy(bs,0,COMMAND_HEADER,0,bs.length);
+		VALID_COMMAND_HEADER_BYTES=bs.length;
+        System.arraycopy(bs,0,COMMAND_HEADER,0,VALID_COMMAND_HEADER_BYTES);
     }
 	/**
      * 登陆仪器
@@ -20,7 +24,7 @@ public class CommandBuilder {
 	/**获取仪器的分析端口数量*/
 	public static final short SEND_CODE$PORT_COUNT=0x7171;
 	/**发送获取仪器分析进度请求*/
-	public static final short SEND_CODE$ANALYZE_PROGRESS =0x3c3c;
+	public static final short SEND_CODE$ANALYZE_PROGRESS =0x3C3C;
 	/**发送解锁仪器气路请求*/
 	public static final short SEND_CODE$UNLOCK_GAS_PATH=0x3737;
 	/**连接检测*/
@@ -39,6 +43,9 @@ public class CommandBuilder {
 		switch (code){
 			case SEND_CODE$ANALYZE_PROGRESS:
 				return "发送分析进程";
+
+			case KuboData.PORT_ANALYZE_PROGRESS:
+				return "接收进度数据";
 			case CODE$CHECK_CONNECTION:
 				return "连接检测";
 			case KuboData.PORT_COUNT:
@@ -68,6 +75,8 @@ public class CommandBuilder {
 		switch (code){
 			case SEND_CODE$ANALYZE_PROGRESS:
 				return "发送分析进程";
+			case KuboData.PORT_ANALYZE_PROGRESS:
+				return "接收进度数据";
 			case CODE$CHECK_CONNECTION:
 				return "连接检测";
 			case KuboData.PORT_COUNT:
@@ -196,7 +205,7 @@ public class CommandBuilder {
 	 */
 	public static byte[] portParameterSetData(int port) {
 		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream(40);
 			DataOutputStream os = new DataOutputStream(baos);
 			os.write(COMMAND_HEADER);
 			os.writeShort(SEND_CODE$PORT_PARAMETER);
@@ -216,7 +225,7 @@ public class CommandBuilder {
 	 * @param password 解锁密码
 	 * @return
 	 */
-	public static byte[] unlockAirWay(String password){
+	public static byte[] unlockGasPath(String password){
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
 			DataOutputStream os = new DataOutputStream(baos);
@@ -239,9 +248,9 @@ public class CommandBuilder {
 	 * 终止分析
 	 * @return
 	 */
-	public static byte[] analysisStop(){
+	public static byte[] teminateAnalyse(){
 		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream(50);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream(40);
 			DataOutputStream os = new DataOutputStream(baos);
 			os.write(COMMAND_HEADER);
 			os.writeShort(SEND_CODE$TERMINATION); /**识别码*/

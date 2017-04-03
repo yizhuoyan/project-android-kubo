@@ -1,5 +1,7 @@
 package com.liuyongmei.kubo.model.datamodel;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.Arrays;
 //分析口参数
@@ -11,7 +13,7 @@ public class PortParameterRunSetKuboData extends KuboData {
 	public  int	anaType;	//分析类型
 
 	public  char[] spName=new char[50];			//样品名称 TCHAR [50]
-	public  float spWeight;			//样品重量 float
+	public  float  spWeight;			//样品重量 float
 	public  int	spDryTemp;			//样品烘干温度 int
 	public  int[]	spDryTime=new int[2];		//样品烘干时长   [0]-时，[1]-分
 	public  char[]	spPerson=new char[20];		//样品检测员 TCHAR [20]
@@ -50,20 +52,29 @@ public class PortParameterRunSetKuboData extends KuboData {
 
 	public  char[]	isoPntCHAR=new char[2];		//等温线字符 TCHAR [2]
 
+	public String getSpDryTimeString(){
+		int[] t=this.spDryTime;
+		if(t==null||t.length==0)return "";
+		StringBuilder result=new StringBuilder();
+		if(t[0]!=0){
+			result.append(t[0]).append("小时");
+		}
+		result.append(t[1]).append("分钟");
+		return result.toString();
+	}
     public static PortParameterRunSetKuboData from(DataReaderInputStream in)throws IOException{
 
         PortParameterRunSetKuboData data = new PortParameterRunSetKuboData();
-        //分析端口号
-        data.port=in.readIntReverse();
+		//分析端口号
+        data.port=in.readInt();
         //跳过4个字节
         in.skipBytes(4);
         //分析类型
         data.anaType=in.readIntReverse();
         //样品名称
-        in.readChars(data.spName);
-
+        in.readCharsReverse(data.spName);
         //样品重量 float
-        data.spWeight=in.readFloat();
+        data.spWeight=in.readFloatReverse();
 
         //样品烘干温度 int
         data.spDryTemp=in.readIntReverse();
@@ -72,11 +83,13 @@ public class PortParameterRunSetKuboData extends KuboData {
         data.spDryTime[0]=in.readIntReverse();
         data.spDryTime[1]=in.readIntReverse();
         //样品检测员 TCHAR [20]
-        in.readChars(data.spPerson);
+        in.readCharsReverse(data.spPerson);
         //样品来源 TCHAR [50]
-        in.readChars(data.spSource);
+        in.readCharsReverse(data.spSource);
+		//样品备注 TCHAR [200]
+		in.readCharsReverse(data.spRemark);
         //吸附质 TCHAR [30]
-        in.readChars(data.adsorbate);
+        in.readCharsReverse(data.adsorbate);
         //吸附质面积/毫升 float
         data.adsorbateArea=in.readFloatReverse();
         //真空脱气时间[分] int
@@ -122,22 +135,22 @@ public class PortParameterRunSetKuboData extends KuboData {
         //解吸递进压力值(Pa) float [30]
         in.readFloatsReverse(data.pgvPressureValueDes);
         //用于保存的文件名前缀 TCHAR [200]
-        in.readChars(data.fileName);
+        in.readCharsReverse(data.fileName);
         //等温线字符 TCHAR [2]
-        in.readChars(data.isoPntCHAR);
+        in.readCharsReverse(data.isoPntCHAR);
         return data;
     }
 
 	@Override
 	public String toString() {
 		return "PortParameterRunSetKuboData [anaType=" + anaType + ", spName="
-				+ Arrays.toString(spName) + ", spWeight=" + spWeight
+				+ new String(spName) + ", spWeight=" + spWeight
 				+ ", spDryTemp=" + spDryTemp + ", spDryTime="
 				+ Arrays.toString(spDryTime) + ", spPerson="
-				+ Arrays.toString(spPerson) + ", spSource="
-				+ Arrays.toString(spSource) + ", spRemark="
-				+ Arrays.toString(spRemark) + ", adsorbate="
-				+ Arrays.toString(adsorbate) + ", adsorbateArea="
+				+ new String(spPerson) + ", spSource="
+				+ new String(spSource) + ", spRemark="
+				+ new String(spRemark) + ", adsorbate="
+				+ new String(adsorbate) + ", adsorbateArea="
 				+ adsorbateArea + ", timeVacuum=" + timeVacuum
 				+ ", timeAdsorptionBalance=" + timeAdsorptionBalance
 				+ ", timeDesorptionBalance=" + timeDesorptionBalance
@@ -158,8 +171,8 @@ public class PortParameterRunSetKuboData extends KuboData {
 				+ Arrays.toString(pgvPressureValueAds)
 				+ ", pgvPressureValueDes="
 				+ Arrays.toString(pgvPressureValueDes) + ", fileName="
-				+ Arrays.toString(fileName) + ", isoPntCHAR="
-				+ Arrays.toString(isoPntCHAR) + "]";
+				+ new String(fileName) + ", isoPntCHAR="
+				+ new String(isoPntCHAR) + "]";
 	}
 	
 }

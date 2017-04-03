@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.liuyongmei.kubo.view.PortDetailBaseView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/port_detail_base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/base_info"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="5dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/anaType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/anaType" />
+        <TextView
+            android:id="@+id/anaTypeValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="12sp"
+            android:gravity="left"
+            />
+
+        <TextView
+            android:id="@+id/spName"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/spName" />
+        <TextView
+            android:id="@+id/spNameValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="12sp"
+            android:gravity="left"
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/spWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/spWeight" />
+        <TextView
+            android:id="@+id/spWeightValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="12sp"
+            android:gravity="left"
+            />
+        <TextView
+            android:id="@+id/spDryTemp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/spDryTemp" />
+        <TextView
+            android:id="@+id/spDryTempValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="12sp"
+            android:gravity="left"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/spDryTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+           android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
+            android:text="@string/spDryTime" />
+        <TextView
+            android:id="@+id/spDryTimeValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="12sp"
+            android:gravity="left"
+            />
+        <TextView
+            android:id="@+id/spPerson"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/spPerson" />
+        <TextView
+            android:id="@+id/spPersonValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="12sp"
+            android:gravity="left"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:padding="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/spSource"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:text="@string/spSource" />
+        <TextView
+            android:id="@+id/spSourceValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="12sp"
+            android:gravity="left"
+            />
+    </LinearLayout>
+
+</com.liuyongmei.kubo.view.PortDetailBaseView>

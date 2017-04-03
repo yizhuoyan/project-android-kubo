@@ -40,13 +40,13 @@ public class SpectrumKuboData extends KuboData {
         in.readFloatsReverse(data.desVomume);
 		return data;
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return "SpectrumKuboData [port=" + port + ", adsMax=" + adsMax + ", adsPPo=" + Arrays.toString(adsPPo)
-				+ ", adsVomume=" + Arrays.toString(adsVomume) + ", desMax=" + desMax + ", desPPo="
-				+ Arrays.toString(desPPo) + ", desVomume=" + Arrays.toString(desVomume) + "]";
-	}	
-	
+		return "SpectrumKuboData{" +
+				"port=" + port +
+				", adsMax=" + adsMax +
+				", desMax=" + desMax +
+				'}';
+	}
 }

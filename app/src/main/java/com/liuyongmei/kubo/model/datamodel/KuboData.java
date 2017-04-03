@@ -30,11 +30,11 @@ public abstract class KuboData extends SyncMessage implements Serializable {
     public static final short CHECK_CONNECTION =0x4e4e;
     /**接收分析端口参数*/
     public static final short PORT_PARAMETER =0x7474;
-    //命令头
-    public final byte[] header;
+    //所有数据的命令头一样，定义为静态变量
+    public final  static byte[] COMMAND_HEADER=CommandBuilder.COMMAND_HEADER;
 
-    public KuboData() {
-        this.header = COMMAND_HEADER;
+    public KuboData(){
+
     }
     /**
      * 是否是头数据
@@ -42,58 +42,52 @@ public abstract class KuboData extends SyncMessage implements Serializable {
      * @return
      */
     private static boolean readCommandHeader(DataInput in)throws IOException{
-        byte[] header=COMMAND_HEADER;
-        Log.d(TAG, "开始识别命名头");
-        for(int i=0,len=header.length;i<len;){
-            Log.d(TAG, "开始读取第"+i+"个字节");
-            //跳过不是
-            if(header[i]==in.readByte()){
+        final byte[] header=KuboData.COMMAND_HEADER;
+        final int valideHeaderLength=CommandBuilder.VALID_COMMAND_HEADER_BYTES;
+        //读到的每个字节
+        byte b=0;
+        //仅用于debug
+        int j=0;
+        //先读取有效命令头个字节
+        for(int i=0,len=valideHeaderLength;i<len;){
+            if(header[i]==(b=in.readByte())){
                 //判断下一位
                 i++;
-                Log.d(TAG, "读到一个字节和命名头相等");
+                j++;
+                Log.d(TAG, "读到第"+i+"个字节和命名头相等,值为:"+b);
             }else{
                 //又从头开始
                 i=0;
-                Log.d(TAG, "不等，从头开始");
+                j++;
+                Log.d(TAG, "第"+j+"个不等，从头开始，值为:"+b);
             }
         }
+        //命令头匹配，跳过其余的
+        in.skipBytes(header.length-valideHeaderLength);
         return true;
     }
+    /**
+     *读取各种设备数据
+     */
     public static KuboData read(DataReaderInputStream in)throws IOException {
-        KuboData data = null;
-        //读取命令头和识别码
-        Log.d(TAG, "开始读取数据");
+
+        Log.d(TAG, "开始识别读取命令头");
         if (readCommandHeader(in)) {
             Log.d(TAG, "读到命名头");
         }
-
-        //读取识别码
         Log.d(TAG, "开始读取识别码");
         short code = in.readShort();
         Log.d(TAG, "读到识别码"+code+"="+ CommandBuilder.getCommandName(code));
-        //根据不同识别码，读取数据
+        //根据不同识别码，读取数据(已根据接收几率接收，如压力和温度值应是最多的)
+        KuboData data = null;
         switch (code) {
-            //接收谱图数据
-            case PORTS_SPECTRUM:
-                data = SpectrumKuboData.from(in);
-                break;
             //接收压力和温度值
             case PRESSURE_TEMPERATURE:
-                //数据从40位开始，跳过4位
-                in.skipBytes(4);
-                data = NetPaKuboData.from(in);
-                break;
-            //端口数量
-            case PORT_COUNT:
-                data = PortCountKuboData.from(in);
+                data = PressureTemperatureKuboData.from(in);
                 break;
             //分析进度
             case PORT_ANALYZE_PROGRESS:
                 data = AnalyzeProgressKuboData.from(in);
-                break;
-            //电磁阀状态
-            case SOLENOIDVALVE_PFC:
-                data = SolenoidValvePFCKuboData.from(in);
                 break;
             //分析口参数
             case PORT_PARAMETER:
@@ -103,11 +97,25 @@ public abstract class KuboData extends SyncMessage implements Serializable {
             case CHECK_CONNECTION:
                 data = CheckConnectionKuboData.from(in);
                 break;
+            //接收谱图数据
+            case PORTS_SPECTRUM:
+                data = SpectrumKuboData.from(in);
+                break;
+            //电磁阀状态
+            case SOLENOIDVALVE_PFC:
+                data = SolenoidValvePFCKuboData.from(in);
+                break;
+            //端口数量
+            case PORT_COUNT:
+                data = PortCountKuboData.from(in);
+                break;
             default:
                 Log.e(TAG,"未找到对应识别码"+code);
         }
+
         if(data!=null){
             data.code=code;
+            Log.d(TAG,"读取完毕数据并开始下次读取<="+data.toString());
         }
         return data;
     }
