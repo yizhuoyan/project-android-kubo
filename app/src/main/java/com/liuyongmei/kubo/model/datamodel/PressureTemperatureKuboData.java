@@ -46,8 +46,8 @@ public class PressureTemperatureKuboData extends KuboData {
         in.readFloatsReverse(data.sen135);
         //将值赋值到data.setPa_L()
         in.readFloatsReverse(data.sen246);
-        data.senM = in.readFloatReverse();
         data.senPo = in.readFloatReverse();
+        data.senM = in.readFloatReverse();
         data.temperature = in.readFloatReverse();
 
         return data;

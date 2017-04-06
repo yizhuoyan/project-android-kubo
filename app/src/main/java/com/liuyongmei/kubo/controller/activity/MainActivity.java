@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         //切换图表
         portChartView.switchView(port);
         //改变标题
-        this.setTitle("端口"+port);
+        this.setTitle("端口"+(port+1));
         //切换详情
         portDetailBaseView.switchView(port);
         //切换进度
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity
             if(System.currentTimeMillis()-lastBackPressedTime<500){
                 super.onBackPressed();
             }else {
-                ToastUtils.shortShow(this,"再按一次退出");
+                ToastUtils.shortShow(this,"双击退出");
                 lastBackPressedTime=System.currentTimeMillis();
             }
 

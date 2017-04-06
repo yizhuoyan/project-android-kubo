@@ -103,7 +103,7 @@ public class PortSpectrumChartView extends LineChartView implements SyncMessageL
         adsLine.setHasPoints(true);//是否用点显示
         adsLine.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状
         adsLine.setPointRadius(2);
-        adsLine.setPointColor(0xffff0000);
+        adsLine.setPointColor(Color.BLUE);
 
         //des
         float[] desXAxis = data.desPPo;
@@ -116,13 +116,13 @@ public class PortSpectrumChartView extends LineChartView implements SyncMessageL
         Line desLine = new Line(desPoints);
         //线
         desLine.setHasLines(true);
-        desLine.setColor(Color.GREEN);
+        desLine.setColor(Color.RED);
         desLine.setStrokeWidth(1);
         desLine.setHasLines(true);
         //点
         desLine.setHasPoints(true);
         desLine.setShape(ValueShape.CIRCLE);
-        desLine.setPointColor(0xffff00ff);
+        desLine.setPointColor(Color.RED);
         desLine.setPointRadius(2);
 
 
@@ -141,6 +141,8 @@ public class PortSpectrumChartView extends LineChartView implements SyncMessageL
         xAxis.setTextSize(10);
         xAxis.setMaxLabelChars(3); //最多几个坐标文字(0-32)
         xAxis.setHasLines(true); //x 轴分割线
+        xAxis.setLineColor(Color.BLACK);
+        xAxis.setTextColor(Color.BLACK);
 
         chartData.setAxisXBottom(xAxis);
 
@@ -152,6 +154,8 @@ public class PortSpectrumChartView extends LineChartView implements SyncMessageL
         yAxis.setMaxLabelChars(3); //最多几个坐标文字(0-32)
         yAxis.setTextSize(10);
         yAxis.setHasSeparationLine(true);//有分割线
+        yAxis.setLineColor(Color.BLACK);
+        yAxis.setTextColor(Color.BLACK);
 
         chartData.setAxisYLeft(yAxis);
 

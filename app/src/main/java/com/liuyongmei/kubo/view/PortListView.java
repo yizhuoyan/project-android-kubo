@@ -22,7 +22,7 @@ import com.liuyongmei.kubo.model.datamodel.SyncMessage;
  */
 
 public class PortListView extends LinearLayout implements SyncMessageListener, View.OnClickListener {
-    private static final String TAG=PortListView.class.getName();
+    private static final String TAG = PortListView.class.getName();
     private MainActivity context;
     private View currentSelectedView;
 
@@ -34,7 +34,7 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
         super(context, attrs);
     }
 
-    public PortListView(Context context,  AttributeSet attrs, int defStyleAttr) {
+    public PortListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -47,12 +47,12 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        Log.d("xxx","onAttachedToWindow-portlist");
+        Log.d("xxx", "onAttachedToWindow-portlist");
     }
 
     @Override
     public void onReceive(final SyncMessage m) {
-        Log.d("xxx","portlist收到消息"+m);
+        Log.d("xxx", "portlist收到消息" + m);
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -66,29 +66,29 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
                     }
                 } else if (m instanceof PortCountKuboData) {
                     PortCountKuboData countKuboData = (PortCountKuboData) m;
-                    Log.d("count", "run: "+countKuboData.count);
+                    Log.d("count", "run: " + countKuboData.count);
                 }
             }
         });
     }
 
     private View createPortView(int port) {
-        View old=this.findViewWithTag(port);
-        if(old!=null){//已存在，不重新创建
+        View old = this.findViewWithTag(port);
+        if (old != null) {//已存在，不重新创建
             return old;
         }
         Button portView = new Button(this.getContext());
         //portView.setId(port);
         portView.setTag(port);
-        portView.setText(String.valueOf(port));
+        portView.setText(String.valueOf(port + 1));
         portView.setBackgroundResource(R.drawable.btn_port_view);
         portView.setGravity(Gravity.CENTER);
         LayoutParams params = new LayoutParams(-1, -2);
         //set the margin
-        params.topMargin=10;
-        params.bottomMargin=10;
-        params.leftMargin=5;
-        params.rightMargin=5;
+        params.topMargin = 10;
+        params.bottomMargin = 10;
+        params.leftMargin = 5;
+        params.rightMargin = 5;
 
         portView.setLayoutParams(params);
         portView.setTextColor(0xffffffff);
@@ -102,18 +102,18 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
     public void onClick(View v) {
         try {
             //防止重复点击
-            if(v==currentSelectedView)return;
-            if(currentSelectedView!=null){
+            if (v == currentSelectedView) return;
+            if (currentSelectedView != null) {
                 currentSelectedView.setEnabled(true);
                 currentSelectedView.setSelected(false);
             }
-            currentSelectedView=v;
+            currentSelectedView = v;
             v.setEnabled(false);
             v.setSelected(true);
             int port = (Integer) v.getTag();
             //通知mainActivity更新视图
             this.context.switchView(port);
-        }finally {
+        } finally {
             v.setEnabled(true);
         }
     }

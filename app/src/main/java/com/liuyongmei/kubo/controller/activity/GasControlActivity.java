@@ -52,14 +52,14 @@ public class GasControlActivity extends Activity implements SyncMessageListener 
 
 		valveViews=new TextView[32];
 		valveViews[0]=(TextView) findViewById(R.id.gas_valve1);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve2);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve3);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve15);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve16);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve17);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve18);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve19);
-		valveViews[0]=(TextView) findViewById(R.id.gas_valve20);
+		valveViews[1]=(TextView) findViewById(R.id.gas_valve2);
+		valveViews[2]=(TextView) findViewById(R.id.gas_valve3);
+		valveViews[14]=(TextView) findViewById(R.id.gas_valve15);
+		valveViews[15]=(TextView) findViewById(R.id.gas_valve16);
+		valveViews[16]=(TextView) findViewById(R.id.gas_valve17);
+		valveViews[17]=(TextView) findViewById(R.id.gas_valve18);
+		valveViews[18]=(TextView) findViewById(R.id.gas_valve19);
+		valveViews[19]=(TextView) findViewById(R.id.gas_valve20);
 
 
 	}
@@ -93,9 +93,9 @@ public class GasControlActivity extends Activity implements SyncMessageListener 
 		//更新阀门开关状态
 		TextView[] vs=this.valveViews;
 		TextView v;
-		for (int i=vs.length;i-->0;){
+		for (int i=0,len=vs.length;i<len;i++){
 			if((v=vs[i])!=null){
-				if(data.isValveOpen(i+1)){
+				if(data.isValveOpen(i)){
 					v.setBackgroundResource(R.color.gas_valve_open);
 				}else{
 					v.setBackgroundResource(R.color.gas_valve_close);
