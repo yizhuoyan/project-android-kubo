@@ -48,5 +48,4 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="default_error_message">系统发生未知异常，请尝试重新登录或升级程序!</string>
 
-
 </resources>

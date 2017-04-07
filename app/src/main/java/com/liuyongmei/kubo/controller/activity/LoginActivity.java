@@ -1,17 +1,11 @@
 package com.liuyongmei.kubo.controller.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,33 +16,30 @@ import com.liuyongmei.kubo.model.AppService;
 import com.liuyongmei.kubo.model.SyncMessageListener;
 import com.liuyongmei.kubo.model.datamodel.SyncMessage;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
- * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements OnClickListener,SyncMessageListener {
 
-    // UI references.
-    private AutoCompleteTextView ipView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-    private Button signInBtn;
-
+    private EditText ipET;
+    private EditText passwordET;
+    private Button loginBtn,cancelBtn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        ipView = (AutoCompleteTextView) findViewById(R.id.ip_tv);
-        mPasswordView = (EditText) findViewById(R.id.password_et);
-        signInBtn = (Button) findViewById(R.id.sign_in_button);
-        signInBtn.setOnClickListener(this);
-        findViewById(R.id.sign_cancel_button).setOnClickListener(this);
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-
+        ipET = (EditText) findViewById(R.id.login_ip);
+        passwordET = (EditText) findViewById(R.id.login_password);
+        loginBtn = (Button) findViewById(R.id.login_btn);
+        loginBtn.setOnClickListener(this);
+        cancelBtn = (Button) findViewById(R.id.login_cancel_btn);
+        cancelBtn.setOnClickListener(this);
     }
 
     @Override
@@ -69,100 +60,61 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         AppService.getInstance().removeReceiveDataListener(SyncMessage.LOGINING,this);
     }
 
-    private void attemptLogin() {
 
+    private void handlerLogin() {
 
         // Reset errors.
-        ipView.setError(null);
-        mPasswordView.setError(null);
+        ipET.setError(null);
+        passwordET.setError(null);
 
-        // Store values at the time of the login attempt.
-        String ip = ipView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String ip = ipET.getText().toString();
+        String password = passwordET.getText().toString();
 
-        boolean cancel = false;
-        View focusView = signInBtn;
+        View focusView = null;
+        do {
+            if (TextUtils.isEmpty(password)) {
+                passwordET.setError(getString(R.string.error_field_required));
+                focusView = passwordET;
+                break;
+            }
 
-        if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_incorrect_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
+            if (TextUtils.isEmpty(ip)) {
+                ipET.setError(getString(R.string.error_field_required));
+                focusView = ipET;
+            }
+            if (!isIpValid(ip)) {
+                ipET.setError(getString(R.string.error_incorrect_ip));
+                focusView = ipET;
+            }
+        }while(false);
 
-        // Check for a valid ip address.
-        if (TextUtils.isEmpty(ip)) {
-            ipView.setError(getString(R.string.error_field_required));
-            focusView = ipView;
-            cancel = true;
-        } else if (!isIpValid(ip)) {
-            ipView.setError(getString(R.string.error_incorrect_ip));
-            focusView = ipView;
-            cancel = true;
-        }
-
-        if (cancel) {
+        if (focusView!=null) {
             focusView.requestFocus();
         } else {
-            showProgress(true);
+            loginBtn.setEnabled(false);
+            loginBtn.setTag(loginBtn.getText());
+            loginBtn.setText("登录中，请稍候");
             AppService.getInstance().loginInConnect(ip, password);
         }
     }
-
-    private boolean isIpValid(String ip) {
-        //TODO: Replace this with your own logic
-        if (ip.length() > 15 || ip.length() < 7) {
+    public boolean isIpValid(String ip){
+        try {
+            InetAddress.getByName(ip);
+            return true;
+        }catch (Exception e){
             return false;
         }
-
-        return ip.contains(".");
     }
 
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-
-    }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sign_in_button:
-                attemptLogin();
+            case R.id.login_btn:
+                handlerLogin();
                 break;
-            case R.id.sign_cancel_button:
+            case R.id.login_cancel_btn:
                 Intent intent=this.getIntent();
                 boolean switchLogin=intent.getBooleanExtra(MainActivity.SWITCH_LOGIN_TAG,false);
                 //如果是切换登录
@@ -195,22 +147,25 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
                 switch (message.code) {
                     case SyncMessage.LOGINING://登录进度
                         //暂时忽略进度
                        // ToastUtils.shortShow(LoginActivity.this, message.message);
                         break;
                     case SyncMessage.LOGIN_SUCCEED:
-                        ToastUtils.shortShow(LoginActivity.this, "登录成功");
+                        ToastUtils.longShow(LoginActivity.this, "登录成功");
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         //防止返回，销毁当前activity
                         finish();
                         break;
                     case SyncMessage.LOGIN_FAILED:
                         ToastUtils.longShow(LoginActivity.this, message.message);
-                        showProgress(false);
+                        loginBtn.setEnabled(true);
+                        loginBtn.setText(loginBtn.getTag()+"");
                         break;
                 }
+
 
             }
         });

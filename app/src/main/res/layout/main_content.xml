@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".controller.activity.MainActivity">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,24 +29,46 @@
 
         <com.liuyongmei.kubo.view.PortListView
             android:id="@+id/port_list"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/blue"
-            />
+            android:background="#D4DDE4"
+            android:orientation="vertical" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
             android:orientation="vertical">
 
-            <com.liuyongmei.kubo.view.PortSpectrumChartView
-                android:id="@+id/chart"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp">
+                <com.liuyongmei.kubo.view.PortSpectrumChartView
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                     />
+                <Button
+                    android:id="@+id/chart_t_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="30dp"
+                    android:text="T 列表"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    />
+                <include android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    layout="@layout/port_chartview_legend"
+                    ></include>
+
+            </RelativeLayout>
 
             <include
                 layout="@layout/port_detail"

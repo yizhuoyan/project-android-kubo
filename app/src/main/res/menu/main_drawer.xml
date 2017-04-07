@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
         <item
             android:id="@+id/nav_gas_control"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/gas_v"
             android:title="气路控制" />
         <item
             android:id="@+id/nav_switch_login"

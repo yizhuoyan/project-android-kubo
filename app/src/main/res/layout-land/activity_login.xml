@@ -1,0 +1,167 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login"
+    tools:context="com.liuyongmei.kubo.controller.activity.LoginActivity">
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline1"
+        app:layout_constraintGuide_percent="0.15"
+        android:orientation="horizontal" />
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline2"
+        app:layout_constraintGuide_percent="0.85"
+        android:orientation="horizontal" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:minWidth="400dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
+        android:layout_marginBottom="0dp"
+        >
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#2A2F49"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Kubo系列吸附仪客户端APP"
+            android:textColor="#ffFFFF"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/prompt_device_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="仪器型号"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+        <Spinner
+            android:id="@+id/type_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="0dp"
+            android:entries="@array/device_type"
+            app:layout_constraintBottom_toBottomOf="@+id/prompt_device_type"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/prompt_device_type"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/prompt_device_type" />
+
+        <TextView
+
+            android:id="@+id/prompt_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/prompt_ip"
+            app:layout_constraintRight_toLeftOf="@+id/type_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/type_spinner" />
+
+        <EditText
+            android:id="@+id/login_ip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:text="111.194.149.207"
+            app:layout_constraintBottom_toBottomOf="@+id/prompt_ip"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toRightOf="@+id/prompt_ip"
+            app:layout_constraintRight_toRightOf="@+id/type_spinner"
+            app:layout_constraintTop_toTopOf="@+id/prompt_ip" />
+
+        <TextView
+
+            android:id="@+id/prompt_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/prompt_password"
+            app:layout_constraintRight_toRightOf="@+id/prompt_ip"
+            app:layout_constraintTop_toBottomOf="@+id/prompt_ip" />
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="builder"
+            app:layout_constraintBottom_toBottomOf="@+id/prompt_password"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toRightOf="@+id/prompt_password"
+            app:layout_constraintRight_toRightOf="@+id/login_ip"
+            app:layout_constraintTop_toTopOf="@+id/prompt_password"
+            app:layout_constraintVertical_bias="0.521" />
+
+        <Button
+            android:id="@+id/login_btn"
+            style="?android:textAppearanceSmall"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
+            android:background="#212742"
+            android:gravity="center"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintRight_toLeftOf="@+id/guideline_center"
+            app:layout_constraintTop_toBottomOf="@+id/login_password"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/login_cancel_btn"
+            style="?android:textAppearanceSmall"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="0dp"
+            android:background="#cccccc"
+            android:padding="0dp"
+            android:text="取消"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline_center"
+            app:layout_constraintTop_toTopOf="@+id/login_btn" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

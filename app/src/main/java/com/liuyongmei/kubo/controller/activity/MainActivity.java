@@ -14,26 +14,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.liuyongmei.kubo.MyApplication;
 import com.liuyongmei.kubo.R;
 import com.liuyongmei.kubo.common.ToastUtils;
+import com.liuyongmei.kubo.controller.dialog.SpectrumDataDialog;
 import com.liuyongmei.kubo.model.AppService;
+import com.liuyongmei.kubo.model.SyncMessageListener;
 import com.liuyongmei.kubo.model.datamodel.KuboData;
+import com.liuyongmei.kubo.model.datamodel.SpectrumKuboData;
+import com.liuyongmei.kubo.model.datamodel.SyncMessage;
 import com.liuyongmei.kubo.view.PortDetailBaseView;
 import com.liuyongmei.kubo.view.PortDetailProgressView;
 import com.liuyongmei.kubo.view.PortListView;
 import com.liuyongmei.kubo.view.PortSpectrumChartView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener,SyncMessageListener {
     public static final String SWITCH_LOGIN_TAG="switch-login";
     private PortListView portListView;
     private PortSpectrumChartView portChartView;
     private PortDetailProgressView portDetailProgressView;
     private PortDetailBaseView portDetailBaseView;
     private TextView currentIpView;
+    private Button tBtn;
+    private int currentPort;
+    private SpectrumDataDialog spectrumDataDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +100,8 @@ public class MainActivity extends AppCompatActivity
         portChartView = (PortSpectrumChartView) findViewById(R.id.chart);
         portDetailProgressView =(PortDetailProgressView) findViewById(R.id.port_detail_progress);
         portDetailBaseView =(PortDetailBaseView) findViewById(R.id.port_detail_base);
+        tBtn= (Button) findViewById(R.id.chart_t_btn);
+        tBtn.setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +110,7 @@ public class MainActivity extends AppCompatActivity
         //发送获取谱图数据请求
         AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM, this.portChartView);
         AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM, this.portListView);
+        AppService.getInstance().addReceiveDataListener(KuboData.PORTS_SPECTRUM, this);
 
         //对分析进度数据感兴趣
         AppService.getInstance().addReceiveDataListener(KuboData.PORT_ANALYZE_PROGRESS,this.portDetailProgressView);
@@ -106,17 +120,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-        Log.d("xxx","onAttachedToWindow-main");
-    }
-
-    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
-            Log.d("xxx","onWindowFocusChanged");
             AppService.getInstance().sendSpectrumData();
             //发送分析进度请求一次,然后等待推送
             AppService.getInstance().sendProgressCommand();
@@ -148,6 +154,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void switchView(int port){
+        currentPort=port;
         //切换图表
         portChartView.switchView(port);
         //改变标题
@@ -228,6 +235,31 @@ public class MainActivity extends AppCompatActivity
                 this.getApplication().onTerminate();
                 this.finish();
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.chart_t_btn:{
+                if(spectrumDataDialog==null){
+                    spectrumDataDialog=new SpectrumDataDialog(this);
+                }
+                spectrumDataDialog.show(spectDatas.get(currentPort));
+                break;
+            }
+        }
+    }
+    private List<SpectrumKuboData> spectDatas=new ArrayList<>(8);
+    @Override
+    public void onReceive(SyncMessage message) {
+        if(message instanceof SpectrumKuboData){
+            SpectrumKuboData data=(SpectrumKuboData)message;
+            int port=data.port;
+            if(spectDatas.size()>port){
+                spectDatas.set(port,data);
+            }
+            spectDatas.add(data);
         }
     }
 }

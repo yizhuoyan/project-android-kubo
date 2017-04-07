@@ -44,15 +44,9 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
         this.context = (MainActivity) this.getContext();
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        Log.d("xxx", "onAttachedToWindow-portlist");
-    }
 
     @Override
     public void onReceive(final SyncMessage m) {
-        Log.d("xxx", "portlist收到消息" + m);
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -87,8 +81,8 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
         //set the margin
         params.topMargin = 10;
         params.bottomMargin = 10;
-        params.leftMargin = 5;
-        params.rightMargin = 5;
+        params.leftMargin = 0;
+        params.rightMargin = 0;
 
         portView.setLayoutParams(params);
         portView.setTextColor(0xffffffff);
