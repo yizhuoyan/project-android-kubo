@@ -101,11 +101,11 @@
         android:id="@+id/imageView5"
         android:layout_width="@dimen/gas_arrow_width"
         android:layout_height="0dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginStart="10dp"
         android:background="@drawable/arrow"
         app:layout_constraintBottom_toTopOf="@+id/gas_valve1"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:srcCompat="@drawable/arrow"
         app:layout_constraintVertical_bias="0.0" />
@@ -118,20 +118,23 @@
         android:text="1"
         android:textColor="#ffffffff"
         app:layout_constraintRight_toRightOf="@+id/imageView5"
-        app:layout_constraintLeft_toLeftOf="@+id/imageView5"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_40" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_40"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView5" />
 
     <View
         android:id="@+id/imageView6"
         android:layout_width="@dimen/gas_arrow_width"
         android:layout_height="0dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="45dp"
+        android:layout_marginRight="32dp"
         android:background="@drawable/arrow"
         app:layout_constraintBottom_toTopOf="@+id/gas_valve3"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_vertical_40"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintRight_toRightOf="@+id/linearLayout" />
     <TextView
         android:id="@+id/gas_valve3"
         android:layout_width="30dp"
@@ -419,7 +422,9 @@
         android:textColor="#ffffffff"
         app:layout_constraintRight_toRightOf="@+id/imageView15"
         app:layout_constraintLeft_toLeftOf="@+id/imageView15"
-        app:layout_constraintBottom_toTopOf="@+id/imageView15" />
+        app:layout_constraintBottom_toTopOf="@+id/imageView15"
+        app:layout_constraintHorizontal_bias="0.49"
+        android:layout_marginBottom="0dp" />
 
     <TextView
         android:id="@+id/gas_valve19"
@@ -621,7 +626,12 @@
         android:textSize="@dimen/gas_sen_text_size"
         android:textColor="#ffffffff"
         app:layout_constraintBottom_toTopOf="@+id/imageView11"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_40" />
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_40"
+        app:layout_constraintTop_toTopOf="@+id/gas_sen6"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/view17"
@@ -708,7 +718,7 @@
     <!--操控板-->
     <include
         android:id="@+id/include"
-        layout="@layout/gas_control_panel"
+        layout="@layout/panel_gascontrol_control"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
@@ -825,6 +835,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView11"
         android:layout_marginTop="0dp"
         app:layout_constraintLeft_toRightOf="@+id/textView11"
-        android:layout_marginLeft="0dp" />
+        android:layout_marginLeft="0dp"
+        tools:ignore="SmallSp" />
 
 </android.support.constraint.ConstraintLayout>

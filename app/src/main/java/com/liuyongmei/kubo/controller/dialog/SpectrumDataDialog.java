@@ -7,17 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.liuyongmei.kubo.R;
 import com.liuyongmei.kubo.model.datamodel.SpectrumKuboData;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import lecho.lib.hellocharts.model.PointValue;
 
 /**
  * Created by Administrator on 2017/4/6 0006.
@@ -36,9 +34,9 @@ public class SpectrumDataDialog extends AlertDialog implements AlertDialog.OnCli
     }
 
     private void init(){
-        this.setTitle("T 列表");
+        this.setTitle("T 列表-吸附和解析");
         this.setCanceledOnTouchOutside(true);
-        View view=View.inflate(this.getContext(),R.layout.dialog_spectrum_table,null);
+        View view=View.inflate(this.getContext(),R.layout.dialog_t_list,null);
         this.setView(view);
         this.setButton(BUTTON_POSITIVE,"关闭",this);
         listView= (ListView)view.findViewById(R.id.spectrum_data_listview);
@@ -56,12 +54,26 @@ public class SpectrumDataDialog extends AlertDialog implements AlertDialog.OnCli
         dialog.dismiss();
     }
 }
+
 class   SpectrumListViewAdapter extends BaseAdapter{
     private List<Float[]> datas=new ArrayList<>();
+    private SpectrumKuboData useData;
+    private static final NumberFormat NUMBER_FORMAT=NumberFormat.getNumberInstance();
+    private static String formatNumber(float v,int digits){
+        NumberFormat f=NUMBER_FORMAT;
+        //保留digits位小数
+        f.setMaximumFractionDigits(digits);
+        f.setMinimumFractionDigits(digits);
+        return f.format(v);
+    }
     public SpectrumListViewAdapter() {
-        datas.add(new Float[]{1f,1f,1f});
+
     }
     public void setDatas(SpectrumKuboData data){
+        //the data no change,just show
+        if(useData==data){
+            return;
+        }
 
         float[] adsXAxis = data.adsPPo;
         float[] adsYAxis = data.adsVomume;
@@ -79,6 +91,8 @@ class   SpectrumListViewAdapter extends BaseAdapter{
         for (int i = 0, len = data.desMax; i < len; i++) {
             listDatas.add(new Float[]{new Float(i),desXAxis[i],desYAxis[i]});
         }
+        useData=data;
+        //notify invalidate the view
         this.notifyDataSetChanged();
     }
 
@@ -100,7 +114,7 @@ class   SpectrumListViewAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView==null){
-            convertView=View.inflate(parent.getContext(),R.layout.spectrum_list_item,null);
+            convertView=View.inflate(parent.getContext(),R.layout.item_t_list,null);
         }
         TextView noView= (TextView) convertView.findViewById(R.id.item_no);
         TextView pressureView = (TextView) convertView.findViewById(R.id.item_pressure);
@@ -112,9 +126,9 @@ class   SpectrumListViewAdapter extends BaseAdapter{
             pressureView.setText("");
             volumeView.setText("");
         }else {
-            noView.setText(String.valueOf(values[0].intValue()));
-            pressureView.setText(String.valueOf(values[1]));
-            volumeView.setText(String.valueOf(values[2]));
+            noView.setText(String.valueOf(values[0].intValue()+1));
+            pressureView.setText(formatNumber(values[1],8));
+            volumeView.setText(formatNumber(values[2],8));
         }
         Log.d("xxx",convertView.toString());
         return convertView;

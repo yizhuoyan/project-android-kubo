@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //两次退出
-            if(System.currentTimeMillis()-lastBackPressedTime<500){
+            if(System.currentTimeMillis()-lastBackPressedTime<800){
                 super.onBackPressed();
             }else {
                 ToastUtils.shortShow(this,"双击退出");

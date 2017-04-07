@@ -29,7 +29,7 @@
 
         <com.liuyongmei.kubo.view.PortListView
             android:id="@+id/port_list"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:background="#D4DDE4"
             android:orientation="vertical" />
@@ -38,14 +38,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
+            android:background="#B1CCFA"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="200dp"
+                android:padding="5dp"
+                >
                 <com.liuyongmei.kubo.view.PortSpectrumChartView
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
@@ -55,9 +55,12 @@
                     android:id="@+id/chart_t_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxHeight="30dp"
+                    android:maxWidth="50dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="30dp"
                     android:text="T 列表"
+                    android:textSize="12sp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
                     />
@@ -65,15 +68,16 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    layout="@layout/port_chartview_legend"
+                    layout="@layout/panel_main_chartview_legend"
                     ></include>
 
             </RelativeLayout>
 
             <include
-                layout="@layout/port_detail"
+                layout="@layout/panel_main_port_detail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></include>
+                android:layout_weight="1"
+                android:layout_height="0dp"></include>
         </LinearLayout>
 
     </LinearLayout>

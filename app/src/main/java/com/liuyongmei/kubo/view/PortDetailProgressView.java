@@ -128,7 +128,7 @@ public class PortDetailProgressView extends LinearLayout implements SyncMessageL
         }
         if(step>3){
             this.progress3.setProgress(100);
-            this.progress4tv.setText("已完成");
+            this.progress3tv.setText("已完成");
         }
         switch (step) {
             case 4://结束分析

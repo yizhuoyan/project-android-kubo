@@ -13,12 +13,12 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/port_detail_base" />
+            layout="@layout/panel_main_port_detail_base" />
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/gray" />
-        <include layout="@layout/port_detail_progress"
+        <include layout="@layout/panel_main_port_detail_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >

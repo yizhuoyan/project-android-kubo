@@ -11,18 +11,23 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="序号"
+            android:textStyle="bold"
+            android:gravity="right|center_vertical"
             android:layout_height="match_parent" />
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"
             android:text="相对压力[P/Po]"
+            android:textStyle="bold"
+            android:gravity="center"
             android:layout_height="match_parent" />
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"
             android:text="体积[ml/g]"
+            android:gravity="center"
+            android:textStyle="bold"
             android:layout_height="match_parent" />
-
     </LinearLayout>
     <ListView
         android:id="@+id/spectrum_data_listview"

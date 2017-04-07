@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/KuboMobile.iml" filepath="$PROJECT_DIR$/KuboMobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kuboapp.iml" filepath="$PROJECT_DIR$/kuboapp.iml" />
     </modules>
   </component>
 </project>

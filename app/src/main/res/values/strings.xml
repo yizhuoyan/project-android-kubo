@@ -36,8 +36,9 @@
 
     <string name="base_ip">192.168.0.5</string>
     <!-- Strings related to login -->
-    <string name="prompt_ip">设备IP</string>
-    <string name="prompt_password">密码</string>
+    <string name="prompt_deveice_type">仪器型号: </string>
+    <string name="prompt_ip">设备 IP: </string>
+    <string name="prompt_password">登录密码: </string>
     <string name="action_sign_in">连接</string>
     <string name="error_invalid_ip">IP格式错误</string>
     <string name="error_incorrect_ip">IP地址错误</string>

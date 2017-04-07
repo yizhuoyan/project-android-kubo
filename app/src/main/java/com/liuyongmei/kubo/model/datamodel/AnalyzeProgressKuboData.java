@@ -18,8 +18,9 @@ public class AnalyzeProgressKuboData extends KuboData {
 
 	public  static AnalyzeProgressKuboData from(DataReaderInputStream in)throws IOException{
         AnalyzeProgressKuboData data=new AnalyzeProgressKuboData();
-		data.step =in.readIntReverse();
+		data.step =in.readByte();
 		in.read(data.progress);
+		in.skipBytes(3);
         return data;
 	}
 	public int getProgress(int no){

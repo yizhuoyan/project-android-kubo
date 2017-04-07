@@ -3,7 +3,8 @@
 
     <item
         android:state_selected="true"
-        android:drawable="@drawable/btn_port_selected"></item>
+
+        android:drawable="@drawable/btn_port_selected" ></item>
     <item
         android:state_selected="false"
         android:drawable="@drawable/btn_port_normal"></item>

@@ -76,18 +76,21 @@ public class PortListView extends LinearLayout implements SyncMessageListener, V
         portView.setTag(port);
         portView.setText(String.valueOf(port + 1));
         portView.setBackgroundResource(R.drawable.btn_port_view);
-        portView.setGravity(Gravity.CENTER);
+        portView.setTextColor(0xffffffff);
+        portView.setTextSize(20);
+        portView.setGravity(Gravity.CENTER_VERTICAL|Gravity.LEFT);
+        portView.setPadding(40,0,0,0);
+        portView.setOnClickListener(this);
+
         LayoutParams params = new LayoutParams(-1, -2);
         //set the margin
-        params.topMargin = 10;
-        params.bottomMargin = 10;
+        params.topMargin = 8;
+        params.bottomMargin = 8;
         params.leftMargin = 0;
         params.rightMargin = 0;
 
         portView.setLayoutParams(params);
-        portView.setTextColor(0xffffffff);
-        portView.setTextSize(20);
-        portView.setOnClickListener(this);
+
         addView(portView);
         return portView;
     }

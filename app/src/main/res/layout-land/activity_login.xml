@@ -59,10 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
-
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="仪器型号"
+            android:text="@string/prompt_deveice_type"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -120,6 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:text="builder"
+            android:inputType="textPassword"
             app:layout_constraintBottom_toBottomOf="@+id/prompt_password"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toRightOf="@+id/prompt_password"
@@ -161,6 +161,7 @@
 
 
     </android.support.constraint.ConstraintLayout>
+
 
 
 
